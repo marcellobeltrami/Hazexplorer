@@ -1,4 +1,4 @@
-# Hazexplorer :tree: :compass:
+# Hazexplorer :deciduous_tree: :compass:
 
 This tool aims at analyzes methylation states from bisulphite sequencing data. 
 
