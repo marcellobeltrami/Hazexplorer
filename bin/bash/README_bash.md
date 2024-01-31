@@ -6,5 +6,8 @@
 
 4) **Bismark_align.sh**: carrys out a sigle genome alignment using Bismark. The reference genome, ordered mates dir, mate1 file, mate2 file are all parameters that need to be passed for this two work. 
 
-5) **BS_director.sh**: is a multi-faced scritpts that coordinates the creationg of reads mates, followed by launching alignment jobs. Other script required is Bismark_align.sh. 
+5) **BS_director.sh**: is a multi-faced scripts that coordinates the creationg of reads mates, followed by launching alignment jobs. Other script required is Bismark_align.sh. 
 
+6) **BisSNP_caller.sh**: is a script carrying out SNP calling for one BAM file using BisSNP.
+
+7) **CGmap_caller.sh**: is a script carrying out SNP calling for one BAM file using CGmap.
