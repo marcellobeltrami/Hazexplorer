@@ -3,7 +3,7 @@
 #SBATCH --ntasks=1
 #SBATCH --time=15:00
 #SBATCH --qos=bbdefault
-#SBATCH --mail-type=ALL 
+
 
 set -e
 

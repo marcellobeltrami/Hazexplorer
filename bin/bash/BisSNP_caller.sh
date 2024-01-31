@@ -4,7 +4,7 @@
 #SBATCH --time=2-00
 #SBATCH --qos=bbdefault
 #SBATCH --account=catonim-epi-switch
-#SBATCH --mail-type=ALL 
+
 set -e
 
 

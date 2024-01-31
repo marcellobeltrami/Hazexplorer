@@ -3,7 +3,7 @@
 #SBATCH --ntasks=1
 #SBATCH --time=5:00
 #SBATCH --constraint=icelake
-#SBATCH --mail-type=ALL
+
 
 set -e
 
