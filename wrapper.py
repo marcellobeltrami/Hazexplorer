@@ -6,8 +6,7 @@ import os
 import sys
 
 
-#Ensure that for steps where SLURM is used, add something that checks whether a job has been completed/failed
-#Raise a flag if it fails.  
+#This pipeline will run on a single set of reads. It will then be parallelized on SLURM by user.  
 
 #Creates parser object. Arguments can then be added to object parser. 
 parser_1 = argparse.ArgumentParser(description="")
