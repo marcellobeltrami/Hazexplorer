@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 
 
 #txt takes inline argument of summary plot location obtained from BisSNP script and sample name
-#Arg2 = sample_name being plotted
+#Arg2 si sample_name being plotted
 txt = str(sys.argv[1])
 sample_name = str(sys.argv[2])
 csv_save = "labelled_summary.csv"
