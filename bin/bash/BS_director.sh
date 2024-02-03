@@ -15,9 +15,9 @@ module load Bismark/0.24.2-foss-2021b
 #                             READ UNIQUE FILES NAME                       #
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #Assign directories to variables. 
-target_directory=/rds/projects/l/lunadiee-epi-virtualmchine/Students/gp_project_MSKD/Hazel_WGBS/TrimQC_out02
-output_unz=../temporary_outs/unzipped_reads
-output_mates=../temporary_outs/mates
+target_directory=/rds/projects/l/lunadiee-epi-virtualmchine/Students/gp_project_MSKD/Hazel_WGBS/TrimQC_out02 # directory where trimmed reads are found
+output_unz=../temporary_outs/unzipped_reads # output directory for unzipped reads
+output_mates=../temporary_outs/mates # # output directory for generated mates
 
 #Make directory if not exist
 mkdir -p "${output_unz}"
