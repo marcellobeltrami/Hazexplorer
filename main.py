@@ -4,7 +4,7 @@
 import argparse
 import os 
 import sys
-
+import yaml
 
 #This pipeline will run on a single set of reads. It will then be parallelized on SLURM by user.  
 
