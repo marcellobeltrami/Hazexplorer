@@ -20,18 +20,28 @@ subparser = main_parser.add_subparsers(title='subcommands', dest='subcommand', h
 #-----------------------------------------------------#
 parser_quality= subparser.add_parser("quality_check", help="Carries out quality check and trimming")
 
-#Adds argumetns available, parses arguments inputted, assigns relative arguments to variable
+#Adds arguments available, parses arguments inputted, assigns relative arguments to variable
 parser_quality.add_argument("-t", "--trim", default=True ,help="carries out trimming of the fastq files to remove adapters and other trimming using trimmomatic.")
 parser_quality.add_argument("-p", "--paired_ends", default=False ,help="setting this to True,  tells trimming to expect as paired ends")
 parser_quality.add_argument("-q", "--quality_control", default=True ,help="carries out quality control using FastQC. Set to False to disable it")
+parser_quality.add_argument("-s", "--slurm_scheduler", default=False, help="set use of slurm (sbatch) to true or false. job will be submitted if slurm is set True.")
 
 args_qual = parser_quality.parse_args()
 
 pair_en = args_qual.paired_ends()
 trim_option= args_qual.trim()
 QC = args_qual.quality_control()
-
+slurm = args_qual.slurm_scheduler()
 #Here insert logic and "backend" of your app.
+
+#Ask joe if sbatch should be included within pipeline or the pipeline will be run with sbatch itself.
+
+
+#PSEUDOCODE: 
+#  - set up a yaml file first. 
+#  - change parameters in yaml file base on the one inputted by user. 
+#  - run the reads_quality.sh script by using input parameters from yaml file. 
+#  - 
 
 #--------------------------------------------------#
 # Creates and defines parser for genome alignment  #
