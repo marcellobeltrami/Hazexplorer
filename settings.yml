@@ -1,0 +1,31 @@
+#Add possibility of resetting this file 
+#(ie. copy this default file in a subdirectory and copy it back at the end of the analyze destroying current)
+
+#------------------------------------------#
+#       SETTINGS FILE FOR HAZEXPLORER      # 
+#------------------------------------------#
+
+#list of all the directories where outputs of relative analysis should be sent. 
+OS_output_file_paths: 
+  fastqc_ouput: ""
+  fastp_ouput: ""
+
+#These are the settings used for fastqc. Setting parameter to true will include it in the analysis. 
+#Changing threads number to an integer (whole number) will increase quality checking speed. 
+FAST_QC settings:
+  casava: false
+  nano: false
+  threads: 4
+  contaminants: false #Specify a file which contains the list of contaminants to screen overrepresented sequences against.
+  adapters: false #Specifyfile which contains the list of adapter sequences that will be searched against the library.
+  kmers: false
+  quiet: true
+
+
+#Fastp settings used for trimming. Setting parameter to true will include it in the analysis. 
+Fastp settings:
+  threads: 4 
+
+
+
+

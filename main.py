@@ -1,10 +1,12 @@
 #!/usr/bin/env python
 
+#This file will include a CLI and act as a workflow manager
+
+
 #Import libraries
 import argparse
 import os 
 import sys
-import yaml
 
 #This pipeline will run on a single set of reads. It will then be parallelized on SLURM by user.  
 
