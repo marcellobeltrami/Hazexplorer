@@ -5,13 +5,26 @@
 #       SETTINGS FILE FOR HAZEXPLORER      # 
 #------------------------------------------#
 
-#list of all the directories where outputs of relative analysis should be sent. 
-OS_output_file_paths: 
-  fastqc_ouput: ""
-  fastp_ouput: ""
+#--------------------------------------------MANDATORY---------------------------------------------------------
+#Modify sample name
+Sample_name: "Sample1"
 
+#Analysis input file paths 
+Input_files: 
+  merge_paired_reads: false  #change false to a directory as a string containing multiple paired reads for the same samples to merge them into 2 files.  
+  read1_mate: false
+  read2_mate: false
+
+#------------------------------------------RECOMMENDED---------------------------------------------------
+#list of all the directories where outputs of relative analysis should be sent. Default will be sent to Results
+OS_output_file_paths: 
+  fastqc_output: "./results/QC/fastQC/"
+  fastp_output_1: "./results/QC/fastp/${Sample_name}.r1.fastq.gz"
+  fastp_output_2: "./results/QC/fastp/${Sample_name}.r2.fastq.gz"
+#------------------------------------------NON-MANDATORY---------------------------------------------------
 #These are the settings used for fastqc. Setting parameter to true will include it in the analysis. 
-#Changing threads number to an integer (whole number) will increase quality checking speed. 
+#Changing threads number to an integer (whole number) will increase quality checking speed.
+# NOTE TO SELF  *python script will need to add these arguments taken from yaml input section: reads mates path. directory output path*  
 FAST_QC settings:
   casava: false
   nano: false
@@ -23,9 +36,13 @@ FAST_QC settings:
 
 
 #Fastp settings used for trimming. Setting parameter to true will include it in the analysis. 
+# NOTE TO SELF  *python script will need to add these arguments taken from yaml input section: -i read_mate_1 -I read_mate_2 -o Output1 -O Output2
 Fastp settings:
   threads: 4 
-
+  dont_overwrite: false
+  adapter_sequence: false #Specify adapter sequence as a filepath
+  adapter_sequence_r2: false #Specify adapter sequence for r2 as a filepath
+  failed_out: false #specify the filepath to store reads that cannot pass the filters [=]
 
 
 
