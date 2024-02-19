@@ -42,6 +42,7 @@ process FAST_QC{
 
   script: 
   """ 
+  mkdir -p ${baseDir}/results/QC/fastQC/
   fastqc ${read}\
   --output $params.fastqc_output\
   --threads 4 \
