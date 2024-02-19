@@ -43,7 +43,6 @@ process FAST_QC{
   script: 
   """ 
   fastqc ${read}\
-  --outdir ${params.fastqc_output} \
   --threads 4 \
   --quiet true \
   """
