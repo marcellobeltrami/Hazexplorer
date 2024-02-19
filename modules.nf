@@ -38,8 +38,8 @@ process FAST_QC{
    path read 
   
   output: 
-    path "*.html"
-  
+    path "$params.fastqc_output"
+      
   script: 
   """ 
   fastqc ${read}\
