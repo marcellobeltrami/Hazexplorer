@@ -4,7 +4,7 @@
 //list of all the directories where outputs of relative analysis should be sent. Default will be sent to Results
 //Modify sample name
 sample_name =  "Sample1"
-params.fastqc_output = "${baseDir}/results/QC/fastQC/"
+params.output = "${baseDir}/results/"
 params.fastp_output_1 = "${baseDir}/results/QC/fastp/${sample_name}.r1.fastq.gz"
 params.fastp_output_2 = "${baseDir}/results/QC/fastp/${sample_name}.r2.fastq.gz"
 params.threads = 4
@@ -31,7 +31,7 @@ process PREPARE_GENOME_SAMTOOLS {
 //------------------------------------------NON-MANDATORY---------------------------------------------------
 //Process carrying QC on reads. 
 process FAST_QC{
-  publishDir "$params.fastqc_output"
+  publishDir "$params.output/QC/"
 
   input: 
    path read 
@@ -41,10 +41,14 @@ process FAST_QC{
 
   script: 
   """ 
-
+  mkdir ${params.output}/QC/
   fastqc ${read}\
   --threads $params.threads \
   --quiet true \
   """
 }
 
+process TRIM{
+
+
+}
