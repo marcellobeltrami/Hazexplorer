@@ -49,18 +49,3 @@ process FAST_QC{
   """
 
 
-
-}
-
-//Fastp settings used for trimming. Setting parameter to true will include it in the analysis. 
-process TRIM{
-
-
-  script: 
-  """ 
-  threads: 4 
-  dont_overwrite: false
-  adapter_sequence: false //Specify adapter sequence as a filepath
-  adapter_sequence_r2: false //Specify adapter sequence for r2 as a filepath
-  failed_out: false}
-  ""
