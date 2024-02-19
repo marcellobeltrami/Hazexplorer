@@ -32,7 +32,7 @@ process PREPARE_GENOME_SAMTOOLS {
 //These are the settings used for fastqc. Setting parameter to true will include it in the analysis. 
 //Changing threads number to an integer (whole number) will increase quality checking speed.
 process FAST_QC{
-  publishDir "$params.fastqc_output"
+  //publishDir "$params.fastqc_output"
 
   input: 
    path read 
@@ -43,7 +43,7 @@ process FAST_QC{
   script: 
   """ 
   fastqc ${read}\
-  --outdir ${fastqc_output} \
+  --outdir ${params.fastqc_output} \
   --threads 4 \
   --quiet true \
   """
