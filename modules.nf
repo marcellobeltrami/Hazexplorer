@@ -4,9 +4,9 @@
 //list of all the directories where outputs of relative analysis should be sent. Default will be sent to Results
 //Modify sample name
 sample_name =  "Sample1"
-params.fastqc_output = "./results/QC/fastQC/"
-params.fastp_output_1 = "./results/QC/fastp/${sample_name}.r1.fastq.gz"
-params.fastp_output_2 = "./results/QC/fastp/${sample_name}.r2.fastq.gz"
+params.fastqc_output = "results/QC/fastQC/"
+params.fastp_output_1 = "results/QC/fastp/${sample_name}.r1.fastq.gz"
+params.fastp_output_2 = "results/QC/fastp/${sample_name}.r2.fastq.gz"
 
 
 
