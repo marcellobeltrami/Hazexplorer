@@ -32,31 +32,35 @@ process PREPARE_GENOME_SAMTOOLS {
 //These are the settings used for fastqc. Setting parameter to true will include it in the analysis. 
 //Changing threads number to an integer (whole number) will increase quality checking speed.
 process FAST_QC{
+  publishDir "$params.fastqc_output"
+
   input: 
-    path reads 
+   path read 
   
   output: 
-    path ${fastqc_output}
+    path "*.html"
   
   script: 
   """ 
-  fastqc ${reads}\
-  --outdir ${fastqc_output}
-  --casava false \
-  --nano false \
+  fastqc ${read}\
+  --outdir ${fastqc_output} \
   --threads 4 \
-  --contaminants false \
-  --adapters false \
-  --kmers false \
   --quiet true \
   """
+
+
+
 }
 
 //Fastp settings used for trimming. Setting parameter to true will include it in the analysis. 
 process TRIM{
+
+
+  script: 
+  """ 
   threads: 4 
   dont_overwrite: false
   adapter_sequence: false //Specify adapter sequence as a filepath
   adapter_sequence_r2: false //Specify adapter sequence for r2 as a filepath
-  failed_out: false
-}
+  failed_out: false}
+  ""
