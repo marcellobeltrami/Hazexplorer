@@ -7,7 +7,7 @@ sample_name =  "Sample1"
 params.fastqc_output = "${baseDir}/results/QC/fastQC/"
 params.fastp_output_1 = "${baseDir}/results/QC/fastp/${sample_name}.r1.fastq.gz"
 params.fastp_output_2 = "${baseDir}/results/QC/fastp/${sample_name}.r2.fastq.gz"
-
+params.threads = 4
 
 
 //Example of syntax. Adjust accordingly
@@ -37,14 +37,13 @@ process FAST_QC{
    path read 
   
   output: 
-    path "$params.fastqc_output"
+    path "*.html"
 
   script: 
   """ 
 
   fastqc ${read}\
-  --outdir $params.fastqc_output\
-  --threads 4 \
+  --threads $params.threads \
   --quiet true \
   """
 }
