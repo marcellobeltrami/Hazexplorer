@@ -47,5 +47,5 @@ process FAST_QC{
   --threads 4 \
   --quiet true \
   """
-
+}
 
