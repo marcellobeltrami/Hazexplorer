@@ -27,9 +27,12 @@ workflow{
     FAST_QC(reads_data)
 }
 
-//Trimming and quality control workflow.
+
+//Trimming quality control and alignment workflow.
 workflow{
     paired_reads= Channel.fromFilePairs(params.paired_reads, checkIfExists: true)
-    TRIM(paired_reads) | FAST_QC()
+    reads_trimmed = TRIM(paired_reads) 
+    FAST_QC(reads_trimmed)
+    //add alignment
 
 }
