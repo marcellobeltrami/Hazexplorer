@@ -2,10 +2,8 @@
 
 //list of all the directories where outputs of relative analysis should be sent. Default will be sent to Results
 //Modify sample name
-sample_name =  "Sample1"
-params.output = "${baseDir}/results/"
-params.fastp_output_1 = "${baseDir}/results/QC/fastp/${sample_name}.r1.fastq.gz"
-params.fastp_output_2 = "${baseDir}/results/QC/fastp/${sample_name}.r2.fastq.gz"
+params.output = "${baseDir}/results"
+params.temps = "${baseDir}/temps"
 params.threads = 4
 
 
@@ -34,18 +32,19 @@ process FAST_QC{
 
 //Trims the reads
 process TRIM{
-  publishDir "${params.output}/results/Trimmed"
+  publishDir "${params.temps}/Trimmed/"
 
   input: 
-   path read
-
+   tuple file(read1), file(read2)
   output: 
     path "*.fastq.gz"
   
   script: 
   """
-  mkdir -p "${params.output}/results/Trimmed"
-  ## add fastp command 
+  mkdir -p "${params.temps}/Trimmed"
+
+  ./bin/reads_quality.sh ${read1} ${read2} ${params.temps}/Trimmed
+
   """
 
 }
