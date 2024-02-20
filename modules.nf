@@ -1,6 +1,5 @@
 #!/usr/bin/env nextflow
 
-//------------------------------------------RECOMMENDED---------------------------------------------------
 //list of all the directories where outputs of relative analysis should be sent. Default will be sent to Results
 //Modify sample name
 sample_name =  "Sample1"
@@ -10,28 +9,12 @@ params.fastp_output_2 = "${baseDir}/results/QC/fastp/${sample_name}.r2.fastq.gz"
 params.threads = 4
 
 
-//Example of syntax. Adjust accordingly
-process PREPARE_GENOME_SAMTOOLS { 
-  tag "$genome.baseName" 
- 
-  input: 
-    path genome //input expected when calling this process PREPARE_GENOME_SAMTOOLS(genome)
- 
-  output: 
-    path "${genome}.fai"
-  
-  script:
-  """
-  samtools faidx ${genome}
-  """
-}
-
 
 
 //------------------------------------------NON-MANDATORY---------------------------------------------------
 //Process carrying QC on reads. 
 process FAST_QC{
-  publishDir "$params.output/QC/"
+  publishDir "${params.output}/QC/"
 
   input: 
    path read 
@@ -41,14 +24,28 @@ process FAST_QC{
 
   script: 
   """ 
-  mkdir ${params.output}/QC/
+  mkdir -p ${params.output}/QC/
   fastqc ${read}\
-  --threads $params.threads \
+  --threads ${params.threads} \
   --quiet true \
   """
 }
 
-process TRIM{
 
+//Trims the reads
+process TRIM{
+  publishDir "${params.output}/results/Trimmed"
+
+  input: 
+   path read
+
+  output: 
+    path "*.fastq.gz"
+  
+  script: 
+  """
+  mkdir -p "${params.output}/results/Trimmed"
+  ## add fastp command 
+  """
 
 }
