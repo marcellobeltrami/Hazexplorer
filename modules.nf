@@ -36,7 +36,7 @@ process TRIM{
 
   input: 
    tuple file(read1), file(read2)
-  output: 
+  output:
     path "*.fastq.gz"
   
   script: 
@@ -48,3 +48,23 @@ process TRIM{
   """
 
 }
+
+
+//Carries out alignment using trimmed reads. 
+process ALIGNMENT{
+  publishDir "${params.temps}/Alignments/"
+
+  input: 
+   tuple file(read1), file(read2)
+  
+  output: 
+    
+
+  script: 
+  """
+  
+  """
+
+}
+
+
