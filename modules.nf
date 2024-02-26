@@ -37,13 +37,20 @@ process TRIM{
   input: 
    tuple file(read1), file(read2)
   output:
-    path "*.fastq.gz"
+    tuple file(trimmedRead1), file(trimmedRead2)
   
   script: 
   """
-  mkdir -p "${params.temps}/Trimmed"
+  mkdir -p "${params.temps}/Trimmed/"
 
-  ./bin/reads_quality.sh ${read1} ${read2} ${params.temps}/Trimmed
+  #trimms paired sequences. This takes ~45seconds
+  fastp -i "${read1}" -I "${read2}" -o "./temps/Trimmed/trimmed_${read1}"  -O "./temps/Trimmed/trimmed_${read2}"
+
+
+
+  #conducts QC on trimmed sequences
+  fastqc "./temps/Trimmed/trimmed_${read1}" -t 10 -o "./temps/Trimmed/trimmed_${read1}"
+  fastqc "./temps/Trimmed/trimmed_${read2}" -t 10 -o "./temps/Trimmed/trimmed_${read2}"
 
   """
 
@@ -55,7 +62,7 @@ process ALIGNMENT{
   publishDir "${params.temps}/Alignments/"
 
   input: 
-   tuple file(read1), file(read2)
+   tuple file(trimmedRead1), file(trimmedRead2)
   
   output: 
     
