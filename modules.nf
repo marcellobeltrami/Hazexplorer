@@ -46,12 +46,6 @@ process TRIM{
   #trimms paired sequences. This takes ~45seconds
   fastp -i "${read1}" -I "${read2}" -o "./temps/Trimmed/trimmed_${read1}"  -O "./temps/Trimmed/trimmed_${read2}"
 
-
-
-  #conducts QC on trimmed sequences
-  fastqc "./temps/Trimmed/trimmed_${read1}" -t 10 -o "./temps/Trimmed/trimmed_${read1}"
-  fastqc "./temps/Trimmed/trimmed_${read2}" -t 10 -o "./temps/Trimmed/trimmed_${read2}"
-
   """
 
 }
