@@ -1,7 +1,7 @@
 #!/usr/bin/env nextflow
 
 //Imports processes from modules.nf file.
-include { ALIGNMENT, REF_INDEXING, TRIM , FAST_QC} from './modules.nf'
+include ALIGNMENT, REF_INDEXING, TRIM , FAST_QC from './modules.nf'
 
 include "./modules.nf"
 
