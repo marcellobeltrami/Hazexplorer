@@ -1,7 +1,10 @@
 #!/usr/bin/env nextflow
 
 //Imports processes from modules.nf file.
-include ALIGNMENT, REF_INDEXING, TRIM, FAST_QC from './modules.nf'
+include {ALIGNMENT} from  './modules.nf'
+include {REF_INDEXING} from  './modules.nf'
+include {TRIM} from  './modules.nf'
+include {FAST_QC} from  './modules.nf'
 
 include "./modules.nf"
 
@@ -25,15 +28,13 @@ log.info """\
 
 
 
-//Quality control workflow.
+
 workflow{
+    //Quality control workflow.
     reads_data= Channel.fromPath(params.input_dir, checkIfExists: true) 
     FAST_QC(reads_data)
-}
 
 
-//Trimming quality control and alignment workflow.
-workflow{
     paired_reads= Channel.fromFilePairs(params.paired_reads, checkIfExists: true)
     TRIM(paired_reads) 
     FAST_QC(params.paired_reads_trim)
@@ -50,5 +51,4 @@ workflow{
 
     //BEFORE TESTING ADD INDEXED REF FOR TOMBUL TO DIRECTORY.
     
-
 }
