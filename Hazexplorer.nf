@@ -8,7 +8,10 @@ include {FAST_QC} from  './modules.nf'
 
 
 //Defines some preconfigured parameters. 
-params.input_dir = "/rds/projects/l/lunadiee-epi-virtualmchine/Students/gp_project_MSKD/*.fq.gz"
+params.input_dir = "/rds/projects/l/lunadiee-epi-virtualmchine/Students/gp_project_MSKD/"
+
+single_read= "/rds/projects/l/lunadiee-epi-virtualmchine/Students/gp_project_MSKD/*.fq.gz" // just for testing, delete
+
 params.paired_reads = "${params.input_dir}/*{1,2}.fq.gz"
 params.paired_reads_trim = "${baseDir}/temps/Trimmed/*{1,2}.fq.gz"
 params.threads = 4
@@ -30,7 +33,7 @@ log.info """\
 
 workflow{
     //Quality control workflow.
-    reads_data= Channel.fromPath(params.input_dir, checkIfExists: true) 
+    reads_data= Channel.fromPath(single_read, checkIfExists: true) 
     FAST_QC(reads_data)
 
 
