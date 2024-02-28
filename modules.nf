@@ -7,7 +7,7 @@ params.temps = "${baseDir}/temps"
 
 params.threads = 4
 params.parallelize = 5
-params.sampleId= null
+params.sampleId= "Sample 1"
 
 
 
@@ -35,7 +35,7 @@ process FAST_QC{
 
 //Trims the reads
 process TRIM{
-  publishDir "${params.temps}/Trimmed/${params.sampleId}/"
+  //publishDir "${params.temps}/Trimmed/${params.sampleId}/"
 
   input: 
    tuple file(read1), file(read2)
@@ -45,10 +45,10 @@ process TRIM{
   
   script: 
   """
-  mkdir -p "${params.temps}/Trimmed/${params.sampleId}/"
+  mkdir -p "${params.temps}/Trimmed/${sampleId}/"
 
   #trimms paired sequences. This takes ~45seconds
-  fastp -i "${read1}" -I "${read2}" -o "./temps/Trimmed/${params.sampleId}/trimmed_${read1}"  -O "./temps/Trimmed/${params.sampleId}/trimmed_${read2}"
+  fastp -i "${read1}" -I "${read2}" -o "./temps/Trimmed/${sampleId}/trimmed_${read1}"  -O "./temps/Trimmed/${sampleId}/trimmed_${read2}"
 
   """
 
@@ -71,20 +71,22 @@ process REF_INDEXING{
 
 //Carries out alignment using trimmed reads. 
 process ALIGNMENT{
-  publishDir "${params.temps}/Alignments/${params.sampleId}"
+  //publishDir "${params.temps}/Alignments/${params.sampleId}"
 
   input: 
    tuple file(trimmedRead1), file(trimmedRead2)
    path indexed_ref_dir
+   val sampleId
   output: 
     path "*.bam" 
 
 
   script: 
   """
-  mkdir -p "${params.temps}/Alignments/${params.sampleId}"
+  mkdir -p "${params.temps}/Alignments/${sampleId}"
 
-  bismark --bowtie2 -p ${params.threads} --parallel ${params.parallelize} --genome ${indexed_ref_dir} -1 ${trimmedRead1} -2 ${trimmedRead2}  
+  bismark --bowtie2 -p ${params.threads} --parallel ${params.parallelize} \
+  --genome ${indexed_ref_dir} -1 ${trimmedRead1} -2 ${trimmedRead2} -o ${sampleId}  
   """
 
 }

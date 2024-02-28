@@ -1,0 +1,6 @@
+2024-02-28 19:34:24	-	loving_cajal	-	e6533d6b1b0b797b4235523e4815f44d	d322093f-6940-4e30-bfc5-3b93f5a134b0	nextflow run Hazexplorer.nf --dry-run
+2024-02-28 19:35:23	-	condescending_kalam	-	b38357a96d1d3f216dcb5291fa325e4e	b2083854-b31b-4547-9d79-3e22ecbdea26	nextflow run Hazexplorer.nf --dry-run
+2024-02-28 19:35:56	-	compassionate_hamilton	-	ce50f644dc9c6c1efc4b92ca67b07c03	3bd4443a-4c27-4a47-b3b3-b0a0dabb207d	nextflow run Hazexplorer.nf --dry-run
+2024-02-28 19:43:05	1.7s	lonely_euclid	ERR	86f7a8341235c58d0c2f8304d1369ad4	47ef120c-95ed-458e-a273-4b4eb8ebe000	nextflow run Hazexplorer.nf --dry-run
+2024-02-28 19:43:22	1.6s	modest_dalembert	ERR	86f7a8341235c58d0c2f8304d1369ad4	dfb68372-748b-4fbe-acf6-a0318ba745d1	nextflow run Hazexplorer.nf --dry-run
+2024-02-28 19:44:36	1.8s	fervent_neumann	ERR	cabd7d3e0a0689f78b02ebac31f89206	dafcb8b3-1f0a-43c9-977c-db4e9ecd92ee	nextflow run Hazexplorer.nf --dry-run
