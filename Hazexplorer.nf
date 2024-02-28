@@ -6,7 +6,6 @@ include {REF_INDEXING} from  './modules.nf'
 include {TRIM} from  './modules.nf'
 include {FAST_QC} from  './modules.nf'
 
-include "./modules.nf"
 
 //Defines some preconfigured parameters. 
 params.input_dir = "/rds/projects/l/lunadiee-epi-virtualmchine/Students/gp_project_MSKD/*.fq.gz"
