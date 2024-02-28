@@ -38,10 +38,12 @@ process TRIM{
   //publishDir "${params.temps}/Trimmed/${params.sampleId}/"
 
   input: 
-   tuple file(read1), file(read2)
+   file(read1)
+   file(read2)
    val sampleId
   output:
-    tuple file(trimmedRead1), file(trimmedRead2)
+    file(trimmedRead1)
+    file(trimmedRead2)
   
   script: 
   """
@@ -74,7 +76,8 @@ process ALIGNMENT{
   //publishDir "${params.temps}/Alignments/${params.sampleId}"
 
   input: 
-   tuple file(trimmedRead1), file(trimmedRead2)
+   file(trimmedRead1)
+   file(trimmedRead2)
    path indexed_ref_dir
    val sampleId
   output: 

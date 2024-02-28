@@ -31,25 +31,22 @@ log.info """\
 
 
 
-
 workflow{
     //Quality control workflow.
-    //reads_data= Channel.fromPath(single_read, checkIfExists: true) 
-    //FAST_QC(reads_data)
-
 
     paired_reads= Channel.fromFilePairs(params.paired_reads, checkIfExists: true)
-    TRIM(paired_reads, params.sampleId) 
-    FAST_QC(params.paired_reads_trim)
+    
+    
 
     //Alignement step if reference indexing has been carried out. value of 1 triggers indexing of input refence genome 
     if (params.indexing == 0) {
-        ALIGNMENT(params.paired_reads_trim, params.reference_gen, params.sampleId)
+        ALIGNMENT(TRIM(paired_reads, params.sampleId) , params.reference_gen, params.sampleId)
+        FAST_QC(params.paired_reads_trim)
 
     } else if (params.indexing== 1) {
         ref_genome_dir = Channel.fromPath(params.reference_gen, type: dir, checkIfExists: true)
         REF_INDEXING(ref_genome_dir)
-        ALIGNMENT(params.paired_reads_trim, ref_genome_dir, params.sampleId)
+        ALIGNMENT(TRIM(paired_reads, params.sampleId), ref_genome_dir, params.sampleId)
     }
 
     //BEFORE TESTING ADD INDEXED REF FOR TOMBUL TO DIRECTORY.

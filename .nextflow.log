@@ -1,40 +1,40 @@
-Feb-28 19:44:36.009 [main] DEBUG nextflow.cli.Launcher - $> nextflow run Hazexplorer.nf --dry-run
-Feb-28 19:44:36.088 [main] INFO  nextflow.cli.CmdRun - N E X T F L O W  ~  version 23.10.1
-Feb-28 19:44:36.107 [main] DEBUG nextflow.plugin.PluginsFacade - Setting up plugin manager > mode=prod; embedded=false; plugins-dir=/home/marcello/.nextflow/plugins; core-plugins: nf-amazon@2.1.4,nf-azure@1.3.3,nf-cloudcache@0.3.0,nf-codecommit@0.1.5,nf-console@1.0.6,nf-ga4gh@1.1.0,nf-google@1.8.3,nf-tower@1.6.3,nf-wave@1.0.1
-Feb-28 19:44:36.118 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Enabled plugins: []
-Feb-28 19:44:36.118 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Disabled plugins: []
-Feb-28 19:44:36.122 [main] INFO  org.pf4j.DefaultPluginManager - PF4J version 3.4.1 in 'deployment' mode
-Feb-28 19:44:36.132 [main] INFO  org.pf4j.AbstractPluginManager - No plugins
-Feb-28 19:44:36.149 [main] DEBUG nextflow.config.ConfigBuilder - Found config local: /home/marcello/Hazexplorer/nextflow.config
-Feb-28 19:44:36.150 [main] DEBUG nextflow.config.ConfigBuilder - Parsing config file: /home/marcello/Hazexplorer/nextflow.config
-Feb-28 19:44:36.182 [main] DEBUG nextflow.config.ConfigBuilder - Applying config profile: `standard`
-Feb-28 19:44:36.653 [main] DEBUG nextflow.cli.CmdRun - Applied DSL=2 by global default
-Feb-28 19:44:36.669 [main] INFO  nextflow.cli.CmdRun - Launching `Hazexplorer.nf` [fervent_neumann] DSL2 - revision: cabd7d3e0a
-Feb-28 19:44:36.670 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins default=[]
-Feb-28 19:44:36.671 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins resolved requirement=[]
-Feb-28 19:44:36.680 [main] DEBUG n.secret.LocalSecretsProvider - Secrets store: /home/marcello/.nextflow/secrets/store.json
-Feb-28 19:44:36.683 [main] DEBUG nextflow.secret.SecretsLoader - Discovered secrets providers: [nextflow.secret.LocalSecretsProvider@176996c3] - activable => nextflow.secret.LocalSecretsProvider@176996c3
-Feb-28 19:44:36.733 [main] DEBUG nextflow.Session - Session UUID: dafcb8b3-1f0a-43c9-977c-db4e9ecd92ee
-Feb-28 19:44:36.733 [main] DEBUG nextflow.Session - Run name: fervent_neumann
-Feb-28 19:44:36.734 [main] DEBUG nextflow.Session - Executor pool size: 8
-Feb-28 19:44:36.741 [main] DEBUG nextflow.file.FilePorter - File porter settings maxRetries=3; maxTransfers=50; pollTimeout=null
-Feb-28 19:44:36.762 [main] DEBUG nextflow.cli.CmdRun - 
+Feb-28 20:02:50.747 [main] DEBUG nextflow.cli.Launcher - $> nextflow run Hazexplorer.nf --dry-run
+Feb-28 20:02:50.821 [main] INFO  nextflow.cli.CmdRun - N E X T F L O W  ~  version 23.10.1
+Feb-28 20:02:50.840 [main] DEBUG nextflow.plugin.PluginsFacade - Setting up plugin manager > mode=prod; embedded=false; plugins-dir=/home/marcello/.nextflow/plugins; core-plugins: nf-amazon@2.1.4,nf-azure@1.3.3,nf-cloudcache@0.3.0,nf-codecommit@0.1.5,nf-console@1.0.6,nf-ga4gh@1.1.0,nf-google@1.8.3,nf-tower@1.6.3,nf-wave@1.0.1
+Feb-28 20:02:50.850 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Enabled plugins: []
+Feb-28 20:02:50.850 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Disabled plugins: []
+Feb-28 20:02:50.853 [main] INFO  org.pf4j.DefaultPluginManager - PF4J version 3.4.1 in 'deployment' mode
+Feb-28 20:02:50.862 [main] INFO  org.pf4j.AbstractPluginManager - No plugins
+Feb-28 20:02:50.878 [main] DEBUG nextflow.config.ConfigBuilder - Found config local: /home/marcello/Hazexplorer/nextflow.config
+Feb-28 20:02:50.879 [main] DEBUG nextflow.config.ConfigBuilder - Parsing config file: /home/marcello/Hazexplorer/nextflow.config
+Feb-28 20:02:50.907 [main] DEBUG nextflow.config.ConfigBuilder - Applying config profile: `standard`
+Feb-28 20:02:51.387 [main] DEBUG nextflow.cli.CmdRun - Applied DSL=2 by global default
+Feb-28 20:02:51.401 [main] INFO  nextflow.cli.CmdRun - Launching `Hazexplorer.nf` [marvelous_einstein] DSL2 - revision: 8b87eded3f
+Feb-28 20:02:51.402 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins default=[]
+Feb-28 20:02:51.402 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins resolved requirement=[]
+Feb-28 20:02:51.414 [main] DEBUG n.secret.LocalSecretsProvider - Secrets store: /home/marcello/.nextflow/secrets/store.json
+Feb-28 20:02:51.417 [main] DEBUG nextflow.secret.SecretsLoader - Discovered secrets providers: [nextflow.secret.LocalSecretsProvider@176996c3] - activable => nextflow.secret.LocalSecretsProvider@176996c3
+Feb-28 20:02:51.475 [main] DEBUG nextflow.Session - Session UUID: dbff65e1-20d6-4439-9f87-4ac496c25bbc
+Feb-28 20:02:51.476 [main] DEBUG nextflow.Session - Run name: marvelous_einstein
+Feb-28 20:02:51.477 [main] DEBUG nextflow.Session - Executor pool size: 8
+Feb-28 20:02:51.486 [main] DEBUG nextflow.file.FilePorter - File porter settings maxRetries=3; maxTransfers=50; pollTimeout=null
+Feb-28 20:02:51.514 [main] DEBUG nextflow.cli.CmdRun - 
   Version: 23.10.1 build 5891
   Created: 12-01-2024 22:01 UTC (22:01 BST)
   System: Linux 5.15.133.1-microsoft-standard-WSL2
   Runtime: Groovy 3.0.19 on Java HotSpot(TM) 64-Bit Server VM 21.0.1+12-LTS-29
   Encoding: UTF-8 (UTF-8)
-  Process: 5355@Marcy [127.0.1.1]
-  CPUs: 8 - Mem: 7.7 GB (6.6 GB) - Swap: 2 GB (2 GB) - Virtual threads ON
-Feb-28 19:44:36.787 [main] DEBUG nextflow.Session - Work-dir: /home/marcello/Hazexplorer/work [ext2/ext3]
-Feb-28 19:44:36.801 [main] DEBUG nextflow.executor.ExecutorFactory - Extension executors providers=[]
-Feb-28 19:44:36.812 [main] DEBUG nextflow.Session - Observer factory: DefaultObserverFactory
-Feb-28 19:44:36.837 [main] DEBUG nextflow.cache.CacheFactory - Using Nextflow cache factory: nextflow.cache.DefaultCacheFactory
-Feb-28 19:44:36.847 [main] DEBUG nextflow.util.CustomPoolFactory - Creating virtual thread pool
-Feb-28 19:44:36.915 [main] DEBUG nextflow.Session - Session start
-Feb-28 19:44:37.163 [main] DEBUG nextflow.script.ScriptRunner - > Launching execution
-Feb-28 19:44:37.309 [main] WARN  nextflow.script.ScriptBinding - Access to undefined parameter `reads` -- Initialise it to a default value eg. `params.reads = some_value`
-Feb-28 19:44:37.310 [main] INFO  nextflow.Nextflow - 
+  Process: 7328@Marcy [127.0.1.1]
+  CPUs: 8 - Mem: 7.7 GB (6.5 GB) - Swap: 2 GB (2 GB) - Virtual threads ON
+Feb-28 20:02:51.535 [main] DEBUG nextflow.Session - Work-dir: /home/marcello/Hazexplorer/work [ext2/ext3]
+Feb-28 20:02:51.550 [main] DEBUG nextflow.executor.ExecutorFactory - Extension executors providers=[]
+Feb-28 20:02:51.564 [main] DEBUG nextflow.Session - Observer factory: DefaultObserverFactory
+Feb-28 20:02:51.587 [main] DEBUG nextflow.cache.CacheFactory - Using Nextflow cache factory: nextflow.cache.DefaultCacheFactory
+Feb-28 20:02:51.597 [main] DEBUG nextflow.util.CustomPoolFactory - Creating virtual thread pool
+Feb-28 20:02:51.663 [main] DEBUG nextflow.Session - Session start
+Feb-28 20:02:51.907 [main] DEBUG nextflow.script.ScriptRunner - > Launching execution
+Feb-28 20:02:52.055 [main] WARN  nextflow.script.ScriptBinding - Access to undefined parameter `reads` -- Initialise it to a default value eg. `params.reads = some_value`
+Feb-28 20:02:52.055 [main] INFO  nextflow.Nextflow - 
     HAZEXPLORER - NF PIPELINE
     ===================================
     Reads: null
@@ -42,72 +42,44 @@ Feb-28 19:44:37.310 [main] INFO  nextflow.Nextflow -
 
 
     
-Feb-28 19:44:37.327 [main] WARN  nextflow.Session - Nextflow version 23.10.1 does not match workflow required version: 22.04.0 -- Execution will continue, but things may break!
-Feb-28 19:44:37.465 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
-Feb-28 19:44:37.465 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
-Feb-28 19:44:37.470 [main] DEBUG nextflow.executor.Executor - [warm up] executor > local
-Feb-28 19:44:37.476 [main] DEBUG n.processor.LocalPollingMonitor - Creating local task monitor for executor 'local' > cpus=8; memory=7.7 GB; capacity=8; pollInterval=100ms; dumpInterval=5m
-Feb-28 19:44:37.478 [main] DEBUG n.processor.TaskPollingMonitor - >>> barrier register (monitor: local)
-Feb-28 19:44:37.551 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
-Feb-28 19:44:37.551 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
-Feb-28 19:44:37.555 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
-Feb-28 19:44:37.555 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
-Feb-28 19:44:37.558 [main] DEBUG nextflow.Session - Workflow process names [dsl2]: ALIGNMENT, TRIM, REF_INDEXING, FAST_QC, SNP_CALLING
-Feb-28 19:44:37.559 [main] DEBUG nextflow.Session - Igniting dataflow network (4)
-Feb-28 19:44:37.564 [PathVisitor-1] DEBUG nextflow.file.PathVisitor - files for syntax: glob; folder: /rds/projects/l/lunadiee-epi-virtualmchine/Students/gp_project_MSKD/; pattern: *{1,2}.fq.gz; options: [checkIfExists:true]
-Feb-28 19:44:37.564 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > TRIM
-Feb-28 19:44:37.565 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > FAST_QC
-Feb-28 19:44:37.566 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > ALIGNMENT
-Feb-28 19:44:37.566 [main] DEBUG nextflow.script.ScriptRunner - Parsed script files:
-  Script_1a9f3ea8ce6a321c: /home/marcello/Hazexplorer/Hazexplorer.nf
-  Script_aed8e59eab2d8039: /home/marcello/Hazexplorer/./modules.nf
-Feb-28 19:44:37.567 [main] DEBUG nextflow.script.ScriptRunner - > Awaiting termination 
-Feb-28 19:44:37.567 [main] DEBUG nextflow.Session - Session await
-Feb-28 19:44:37.568 [PathVisitor-1] DEBUG nextflow.file.PathVisitor - No such file or directory: /rds/projects/l/lunadiee-epi-virtualmchine/Students/gp_project_MSKD/ -- Skipping visit
-Feb-28 19:44:37.570 [PathVisitor-1] ERROR nextflow.Channel - No files match pattern `*{1,2}.fq.gz` at path: /rds/projects/l/lunadiee-epi-virtualmchine/Students/gp_project_MSKD/
-java.lang.IllegalArgumentException: No files match pattern `*{1,2}.fq.gz` at path: /rds/projects/l/lunadiee-epi-virtualmchine/Students/gp_project_MSKD/
-	at nextflow.file.PathVisitor.pathImpl(PathVisitor.groovy:173)
-	at nextflow.file.PathVisitor.applyGlobPattern0(PathVisitor.groovy:131)
-	at nextflow.file.PathVisitor.apply(PathVisitor.groovy:69)
-	at nextflow.file.PathVisitor$_applyAsync_closure1.doCall(PathVisitor.groovy:78)
-	at nextflow.file.PathVisitor$_applyAsync_closure1.call(PathVisitor.groovy)
-	at groovy.lang.Closure.run(Closure.java:498)
-	at java.base/java.util.concurrent.CompletableFuture$UniRun.tryFire(CompletableFuture.java:787)
-	at java.base/java.util.concurrent.CompletableFuture$Completion.run(CompletableFuture.java:482)
-	at java.base/java.util.concurrent.ThreadPerTaskExecutor$TaskRunner.run(ThreadPerTaskExecutor.java:314)
-	at java.base/java.lang.Thread.run(Thread.java:1583)
-Feb-28 19:44:37.575 [PathVisitor-1] DEBUG nextflow.Session - Session aborted -- Cause: No files match pattern `*{1,2}.fq.gz` at path: /rds/projects/l/lunadiee-epi-virtualmchine/Students/gp_project_MSKD/
-Feb-28 19:44:37.581 [Task monitor] DEBUG n.processor.TaskPollingMonitor - <<< barrier arrives (monitor: local) - terminating tasks monitor poll loop
-Feb-28 19:44:37.597 [PathVisitor-1] DEBUG nextflow.Session - The following nodes are still active:
-[process] TRIM
-  status=ACTIVE
-  port 0: (queue) OPEN  ; channel: -
-  port 1: (value) bound ; channel: sampleId
-  port 2: (cntrl) -     ; channel: $
-
-[process] FAST_QC
-  status=ACTIVE
-  port 0: (value) bound ; channel: read
-  port 1: (cntrl) -     ; channel: $
-
-[process] ALIGNMENT
-  status=ACTIVE
-  port 0: (value) bound ; channel: -
-  port 1: (value) bound ; channel: indexed_ref_dir
-  port 2: (value) bound ; channel: sampleId
-  port 3: (cntrl) -     ; channel: $
-
-Feb-28 19:44:37.598 [main] DEBUG nextflow.Session - Session await > all processes finished
-Feb-28 19:44:37.599 [main] DEBUG nextflow.Session - Session await > all barriers passed
-Feb-28 19:44:37.604 [main] DEBUG n.trace.WorkflowStatsObserver - Workflow completed > WorkflowStats[succeededCount=0; failedCount=0; ignoredCount=0; cachedCount=0; pendingCount=0; submittedCount=0; runningCount=0; retriesCount=0; abortedCount=0; succeedDuration=0ms; failedDuration=0ms; cachedDuration=0ms;loadCpus=0; loadMemory=0; peakRunning=0; peakCpus=0; peakMemory=0; ]
-Feb-28 19:44:37.604 [Actor Thread 4] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
-  task: name=FAST_QC; work-dir=null
-  error [java.lang.InterruptedException]: java.lang.InterruptedException
-Feb-28 19:44:37.606 [Actor Thread 5] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
-  task: name=ALIGNMENT; work-dir=null
-  error [java.lang.InterruptedException]: java.lang.InterruptedException
-Feb-28 19:44:37.606 [Actor Thread 9] WARN  nextflow.processor.TaskProcessor - Input tuple does not match input set cardinality declared by process `ALIGNMENT` -- offending value: /home/marcello/Hazexplorer/temps/Trimmed/*{1,2}.fq.gz
-Feb-28 19:44:37.682 [Actor Thread 8] DEBUG nextflow.util.CacheHelper - Unable to get file attributes file: /home/marcello/Hazexplorer/temps/Trimmed/*{1,2}.fq.gz -- Cause: java.nio.file.NoSuchFileException: /home/marcello/Hazexplorer/temps/Trimmed/*{1,2}.fq.gz
-Feb-28 19:44:37.682 [Actor Thread 9] DEBUG nextflow.util.CacheHelper - Unable to get file attributes file: /data/references/Hazelnut_CavTom2PMs-1.0 -- Cause: java.nio.file.NoSuchFileException: /data/references/Hazelnut_CavTom2PMs-1.0
-Feb-28 19:44:37.788 [main] DEBUG nextflow.cache.CacheDB - Closing CacheDB done
-Feb-28 19:44:37.798 [main] DEBUG nextflow.script.ScriptRunner - > Execution complete -- Goodbye
+Feb-28 20:02:52.070 [main] WARN  nextflow.Session - Nextflow version 23.10.1 does not match workflow required version: 22.04.0 -- Execution will continue, but things may break!
+Feb-28 20:02:52.171 [main] DEBUG nextflow.script.ScriptRunner - Parsed script files:
+  Script_712d065be5f70fa9: /home/marcello/Hazexplorer/./modules.nf
+  Script_e62ece8316082824: /home/marcello/Hazexplorer/Hazexplorer.nf
+Feb-28 20:02:52.171 [main] DEBUG nextflow.Session - Session aborted -- Cause: Process `TRIM` declares 3 input channels but 2 were specified
+Feb-28 20:02:52.192 [main] ERROR nextflow.cli.Launcher - Process `TRIM` declares 3 input channels but 2 were specified
+nextflow.exception.ScriptRuntimeException: Process `TRIM` declares 3 input channels but 2 were specified
+	at nextflow.script.ProcessDef.run(ProcessDef.groovy:174)
+	at nextflow.script.BindableDef.invoke_a(BindableDef.groovy:51)
+	at nextflow.script.ComponentDef.invoke_o(ComponentDef.groovy:40)
+	at nextflow.script.WorkflowBinding.invokeMethod(WorkflowBinding.groovy:102)
+	at org.codehaus.groovy.runtime.metaclass.ClosureMetaClass.invokeOnDelegationObjects(ClosureMetaClass.java:408)
+	at org.codehaus.groovy.runtime.metaclass.ClosureMetaClass.invokeMethod(ClosureMetaClass.java:350)
+	at org.codehaus.groovy.runtime.callsite.PogoMetaClassSite.callCurrent(PogoMetaClassSite.java:61)
+	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCallCurrent(CallSiteArray.java:51)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(AbstractCallSite.java:171)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(AbstractCallSite.java:194)
+	at Script_e62ece8316082824$_runScript_closure1$_closure2.doCall(Script_e62ece8316082824:40)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.codehaus.groovy.reflection.CachedMethod.invoke(CachedMethod.java:107)
+	at groovy.lang.MetaMethod.doMethodInvoke(MetaMethod.java:323)
+	at org.codehaus.groovy.runtime.metaclass.ClosureMetaClass.invokeMethod(ClosureMetaClass.java:274)
+	at groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1030)
+	at groovy.lang.Closure.call(Closure.java:427)
+	at groovy.lang.Closure.call(Closure.java:406)
+	at nextflow.script.WorkflowDef.run0(WorkflowDef.groovy:204)
+	at nextflow.script.WorkflowDef.run(WorkflowDef.groovy:188)
+	at nextflow.script.BindableDef.invoke_a(BindableDef.groovy:51)
+	at nextflow.script.ChainableDef$invoke_a.call(Unknown Source)
+	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCall(CallSiteArray.java:47)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:125)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:139)
+	at nextflow.script.BaseScript.run0(BaseScript.groovy:183)
+	at nextflow.script.BaseScript.run(BaseScript.groovy:192)
+	at nextflow.script.ScriptParser.runScript(ScriptParser.groovy:236)
+	at nextflow.script.ScriptRunner.run(ScriptRunner.groovy:242)
+	at nextflow.script.ScriptRunner.execute(ScriptRunner.groovy:137)
+	at nextflow.cli.CmdRun.run(CmdRun.groovy:372)
+	at nextflow.cli.Launcher.run(Launcher.groovy:500)
+	at nextflow.cli.Launcher.main(Launcher.groovy:672)
