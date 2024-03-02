@@ -2,58 +2,54 @@
 
 //list of all the directories where outputs of relative analysis should be sent. Default will be sent to Results
 //Modify sample name
-params.output = "${baseDir}/results"
-params.temps = "${baseDir}/temps"
-
-params.threads = 4
-params.parallelize = 5
-params.sampleId= "Sample 1"
+output = "${baseDir}/results"
+temps = "${baseDir}/temps"
+indexed_genome = "${baseDir}/data/references/"
 
 
 
 
-//------------------------------------------PROCESSES---------------------------------------------------
+
+//------------------------------------------PROCESSES---------------------------------------------------//
+
+
+// Trims the reads
+process TRIM {
+    input:
+    file read1
+    file read2 
+    val sampleId
+
+    output:
+    tuple file ("${temps}/Trimmed/${sampleId}/trimmed_${read1}") file ("${temps}/Trimmed/${sampleId}/trimmed_${read2}")
+
+    script:
+    """
+    mkdir -p "${temps}/Trimmed/${sampleId}/"
+
+    # Trim paired sequences using fastp (approximately 45 seconds)
+    fastp -i "${read1}" -I "${read2}" -o "${temps}/Trimmed/${sampleId}/trimmed_${read1}" -O "${temps}/Trimmed/${sampleId}/trimmed_${read2}"
+    """
+}
+
 //Process carrying QC on reads. 
 process FAST_QC{
-  publishDir "${params.output}/QC"
+  publishDir "${output}/QC"
 
   input: 
-   path read 
-  
+   tuple trim_reads 
+   val threads
   output: 
     path "*.html"
 
   script: 
   """ 
-  mkdir -p ${params.output}/QC/
+  mkdir -p ${output}/QC/
   fastqc ${read}\
-  --threads ${params.threads} \
+  --threads ${threads} \
   --quiet true \
+  --output ${output}/
   """
-}
-
-
-//Trims the reads
-process TRIM{
-  //publishDir "${params.temps}/Trimmed/${params.sampleId}/"
-
-  input: 
-   file(read1)
-   file(read2)
-   val sampleId
-  output:
-    file(trimmedRead1)
-    file(trimmedRead2)
-  
-  script: 
-  """
-  mkdir -p "${params.temps}/Trimmed/${sampleId}/"
-
-  #trimms paired sequences. This takes ~45seconds
-  fastp -i "${read1}" -I "${read2}" -o "./temps/Trimmed/${sampleId}/trimmed_${read1}"  -O "./temps/Trimmed/${sampleId}/trimmed_${read2}"
-
-  """
-
 }
 
 
@@ -62,36 +58,42 @@ process REF_INDEXING{
 
     input:
     path(refdir) from ref_genome_dir 
+    val ref_name
+    
+
+    output: 
+    path "${indexed_genome}/${ref_name} "
 
     script:
     """
-    
+    mkdir -p "${indexed_genome}/${ref_name}"
+
+    bismark_genome_preparation --path_to_aligner /usr/bin/bowtie2/ --verbose ${ref_dir} -o "${indexed_genome}/${ref_name}"
     """
 }
 
 
 
 //Carries out alignment using trimmed reads. 
-process ALIGNMENT{
-  //publishDir "${params.temps}/Alignments/${params.sampleId}"
+// Carries out alignment using trimmed reads.
+process ALIGNMENT {
+    input:
+    file trimmedRead1
+    file trimmedRead2
+    path indexed_ref_dir
+    val sampleId
+    val threads
+    val parallelize
+    output:
+    path "*.bam"
 
-  input: 
-   file(trimmedRead1)
-   file(trimmedRead2)
-   path indexed_ref_dir
-   val sampleId
-  output: 
-    path "*.bam" 
+    script:
+    """
+    mkdir -p "${params.temps}/Alignments/${sampleId}"
 
-
-  script: 
-  """
-  mkdir -p "${params.temps}/Alignments/${sampleId}"
-
-  bismark --bowtie2 -p ${params.threads} --parallel ${params.parallelize} \
-  --genome ${indexed_ref_dir} -1 ${trimmedRead1} -2 ${trimmedRead2} -o ${sampleId}  
-  """
-
+    bismark --bowtie2 -p ${threads} --parallel ${parallelize} \
+    --genome ${indexed_ref_dir} -1 ${trimmedRead1} -2 ${trimmedRead2} -o ${params.temps}/Alignments/${sampleId}
+    """
 }
 
 
@@ -101,7 +103,6 @@ process SNP_CALLING{
 
   input: 
    path "${params.temps}/Alignments/${params.sampleId}/*.bam"
-  
   output: 
     path "*.bam" 
 
