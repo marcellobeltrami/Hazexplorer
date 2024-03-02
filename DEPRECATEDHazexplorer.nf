@@ -122,7 +122,7 @@ process SNP_CALLING{
   """
   mkdir -p "${params.output}/SNP_calls/${params.sampleId}"
 
-  ##Wait to determine nest caller. 
+  ##Wait to determine best caller. 
 
   """
     
@@ -140,6 +140,7 @@ workflow{
     }
     //Quality control workflow.
 
+    
     paired_reads= Channel.fromFilePairs(params.paired_reads, checkIfExists: true)
     
     """
