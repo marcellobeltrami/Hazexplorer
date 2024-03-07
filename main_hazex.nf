@@ -146,7 +146,4 @@ workflow{
         //add snp calling
     }
 
-
-
-
 }
