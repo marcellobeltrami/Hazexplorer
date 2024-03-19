@@ -5,7 +5,7 @@
 
 //params. use --parameter_name to change parameter
 params.paired_reads = './data/reads/*{1,2}.fq.gz' // remember to change this to null. Use example --paired_reads='./data/reads/*{1,2}.fq.gz'
-params.reference_genome= "./data/references/Hazelnut_CavTom2PMs-1.0/"
+params.reference_genome= "./data/references/Hazelnut_CavTom2PMs-1.0/fasta_ref"
 params.reference_name = "reference_name"
 params.results = "./results"
 
