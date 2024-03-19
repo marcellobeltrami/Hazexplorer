@@ -59,3 +59,10 @@
 2024-03-02 15:18:58	-	high_wright	-	83f04335a01272dd814dc0ff49c49d59	b07ba122-d126-4ce3-b126-3646fc692e98	nextflow run test_main.nf --dry-run
 2024-03-02 15:20:57	1.5s	exotic_curry	ERR	5e2b95390136d8c0bd4612c6db9813f8	840cd525-4d1d-4ba3-875c-93ce04bd3529	nextflow run test_main.nf --dry-run
 2024-03-02 15:22:09	1.9s	naughty_ampere	ERR	3302b33352c19ee72313ba0a293cbc10	45e54104-2236-4ac7-8639-5916a88d773f	nextflow run test_main.nf --dry-run
+2024-03-07 15:53:30	-	grave_euler	-	5fa48b7e6d38b0621dd7023c0d842ab0	df6aba95-f5f0-4829-a67c-1df88cc97b79	nextflow run main_hazex.nf --dry-run
+2024-03-07 15:54:53	-	drunk_murdock	-	5fa48b7e6d38b0621dd7023c0d842ab0	07c224de-952e-49eb-bc41-7636ed493584	nextflow run main_hazex.nf --dry-run --paired_read './data/reads/*{1,2}.fq.gz'
+2024-03-07 15:57:04	-	friendly_tuckerman	-	5fa48b7e6d38b0621dd7023c0d842ab0	0733bd92-34fb-4562-8d1f-46f51b32b680	nextflow run main_hazex.nf --dry-run --input 'params.paired_read=./data/reads/*{1,2}.fq.gz'
+2024-03-07 16:00:57	-	dreamy_plateau	-	5fa48b7e6d38b0621dd7023c0d842ab0	d43517e5-31ba-4bdc-8612-d33e5e9f1da2	nextflow run main_hazex.nf --dry-run --set 'params.paired_read=./data/reads/*{1,2}.fq.gz'
+2024-03-07 16:01:15	-	big_kowalevski	-	5fa48b7e6d38b0621dd7023c0d842ab0	6661f08b-6734-44a5-afda-91d85551b285	nextflow run main_hazex.nf --dry-run --set 'params.paired_reads=./data/reads/*{1,2}.fq.gz'
+2024-03-07 16:03:28	1.9s	big_bohr	ERR	5fa48b7e6d38b0621dd7023c0d842ab0	b65043c9-7d42-4749-b246-415c0a9cc832	nextflow run main_hazex.nf '--paired_reads=./data/reads/*{1,2}.fq.gz'
+2024-03-07 16:04:21	1.9s	soggy_carson	ERR	ba4ff95f03af98755fee23dbcd954d28	7ef5a3ba-d7a3-4f15-988b-d98ecda30c37	nextflow run main_hazex.nf '--paired_reads=./data/reads/*{1,2}.fq.gz'

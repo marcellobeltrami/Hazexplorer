@@ -1,12 +1,15 @@
 #!/usr/bin/env nextflow
 
-//params
-params.paired_reads = './data/reads/*{1,2}.fq.gz' // remember to change this to null. 
+//https://www.nextflow.io/blog/2021/5_tips_for_hpc_users.html (investigate slurm integration with Nextflow.)
+
+
+//params. use --parameter_name to change parameter
+params.paired_reads = './data/reads/*{1,2}.fq.gz' // remember to change this to null. Example --paired_reads='./data/reads/*{1,2}.fq.gz'
 params.reference_genome= "./data/references/Hazelnut_CavTom2PMs-1.0/"
 params.reference_name = "reference_name"
 params.results = "./results"
 
-params.index_requirement = null 
+params.index_requirement = 0 //change this to null 
 params.parallelize = 1
 params.threads = 4
 
@@ -15,7 +18,16 @@ trimmed_outputs= "${baseDir}/data/trimmed/"
 indexed_reference = "${baseDir}/data/references/"
 temps = "${baseDir}/temps/"
 
+//Checks if fundamental parameters have been specified.
+if (params.paired_reads == null) {
+      println("Specify reads using paired_reads")
+      exit(1)
+}
 
+if (params.index_requirement == null){
+    println("Indicate integer for indexing the reference genome is necessary. (0: non required, 1: required)")
+    exit(1)
+}
 
 //Infor for the user.
 log.info """\
@@ -65,9 +77,9 @@ process INDEX{
     script:
 
     """
-    bismark_genome_preparation --path_to_aligner /usr/bin/bowtie2/ --verbose ${reference_genome} -o ${params.reference_name}/ 
+    bismark_genome_preparation --path_to_aligner /usr/bin/bowtie2 --verbose ${reference_genome} -o ${params.reference_name}/ 
     """
-
+// chaange path to aligner so it not /usr/bin/bowtie2, but just bowtie2.  
 }
 
 process FAST_QC{
@@ -127,12 +139,7 @@ workflow{
     paired_trimmed = TRIM(paired_reads_ch)
     FAST_QC(paired_trimmed) //produces a QC report of trimmed reads. 
 
-    if (params.index_requirement == null){
-
-        """
-        exit 1, "Specify if indexing of reference genome is required as integer. (0: non required, 1: required)"
-        """
-    }
+   
     
     //called if reference genome is default
     if (params.index_requirement == 0){
