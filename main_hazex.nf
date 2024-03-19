@@ -4,7 +4,7 @@
 
 
 //params. use --parameter_name to change parameter
-params.paired_reads = './data/reads/*{1,2}.fq.gz' // remember to change this to null. Example --paired_reads='./data/reads/*{1,2}.fq.gz'
+params.paired_reads = './data/reads/*{1,2}.fq.gz' // remember to change this to null. Use example --paired_reads='./data/reads/*{1,2}.fq.gz'
 params.reference_genome= "./data/references/Hazelnut_CavTom2PMs-1.0/"
 params.reference_name = "reference_name"
 params.results = "./results"
@@ -55,6 +55,17 @@ process TRIM {
     script:
     def (read1, read2) = reads
     """
+    #SBATCH --ntasks=1
+    #SBATCH --time=15:00
+    #SBATCH --qos=bbdefault
+    #SBATCH --mail-type=ALL 
+
+    set -e
+
+    module purge; module load bluebear
+    module load bear-apps/2021b/live
+    module load fastp/0.23.2-GCC-11.2.0
+
     mkdir -p "${trimmed_outputs}${sampleId}"
 
     # Trim paired sequences using fastp (approximately 45 seconds)
@@ -77,9 +88,23 @@ process INDEX{
     script:
 
     """
-    bismark_genome_preparation --path_to_aligner /usr/bin/bowtie2 --verbose ${reference_genome} -o ${params.reference_name}/ 
+    
+    #SBATCH --ntasks=5
+    #SBATCH --time=3-00
+    #SBATCH --qos=bbdefault
+    #SBATCH --account=catonim-epi-switch
+    #SBATCH --mail-type=ALL 
+    set -e
+
+    module purge 
+    module load bluebear 
+    module load bear-apps/2021b
+    module load Bismark/0.24.2-foss-2021b
+
+    
+    bismark_genome_preparation --aligner bowtie2 --verbose ${reference_genome} -o ${params.reference_name}/ 
     """
-// chaange path to aligner so it not /usr/bin/bowtie2, but just bowtie2.  
+// change path to aligner so it not /usr/bin/bowtie2, but just bowtie2.  
 }
 
 process FAST_QC{
@@ -97,6 +122,18 @@ process FAST_QC{
     script:
     def (read1, read2) = reads
     """
+    #SBATCH --ntasks=1
+    #SBATCH --time=15:00
+    #SBATCH --qos=bbdefault
+    #SBATCH --mail-type=ALL 
+
+    set -e
+
+    module purge; module load bluebear
+    module load bear-apps/2021b/live
+    module load FastQC/0.11.9-Java-11
+    
+    
     mkdir -p "${params.results}/QC/${sampleId}"
 
     fastqc ${read1} --threads ${params.threads} --quiet true --output ${sampleId}_QC_1
@@ -120,6 +157,18 @@ process ALIGNMENT {
     script:
     def (trimmedRead1, trimmedRead2) = reads
     """
+    #SBATCH --ntasks=5
+    #SBATCH --time=3-00
+    #SBATCH --qos=bbdefault
+    #SBATCH --account=catonim-epi-switch
+    #SBATCH --mail-type=ALL 
+    set -e
+
+    module purge 
+    module load bluebear 
+    module load bear-apps/2021b
+    module load Bismark/0.24.2-foss-2021b
+
     mkdir -p "${params.temps}/Alignments/${sampleId}"
 
     bismark --bowtie2 -p ${params.threads} --parallel ${params.parallelize} \
