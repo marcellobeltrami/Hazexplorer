@@ -5,7 +5,7 @@
 
 //params. use --parameter_name to change parameter
 params.paired_reads = './data/reads/*{1,2}.fq.gz' // remember to change this to null. Use example --paired_reads='./data/reads/*{1,2}.fq.gz'
-params.reference_genome= './data/references/Hazelnut_CavTom2PMs-1.0/fasta_ref/'
+params.reference_genome= './data/references/Hazelnut_CavTom2PMs-1.0/fasta_ref/Bisulfite_Genome' //This path should be to the 
 params.reference_name = "reference_name"
 params.results = "./results"
 
@@ -149,7 +149,7 @@ process ALIGNMENT {
     
     input:
     tuple val(sampleId) , path(reads) 
-    path indexed_reference_directory
+    path indexed_reference_directory 
     
     output:
     path "*.bam"
@@ -194,12 +194,14 @@ workflow{
     if (params.index_requirement == 0){
         aligned_bam = ALIGNMENT(paired_trimmed, params.reference_genome)
         //add snp calling
+        // ......
     }
     //called if reference genome is custom
     if (params.index_requirement == 1){
         indexed_reference = INDEX(params.reference_genome)
         aligned_bam = ALIGNMENT(paired_reads_trim, indexed_reference)
         //add snp calling
+        // .....
     }
 
 }
