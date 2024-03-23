@@ -91,7 +91,7 @@ process INDEX{
     script:
 
     """
-    #SBATCH --ntasks=5
+    #SBATCH --ntasks=25
     #SBATCH --time=3-00
     #SBATCH --qos=bbdefault
     
@@ -160,7 +160,7 @@ process ALIGNMENT {
     script:
     def (trimmedRead1, trimmedRead2) = reads
     """
-    #SBATCH --ntasks=5
+    #SBATCH --ntasks=50
     #SBATCH --time=3-00
     #SBATCH --qos=bbdefault
     
@@ -173,11 +173,10 @@ process ALIGNMENT {
 
     mkdir -p "${params.temps}/Alignments/${sampleId}"
 
-    bismark --bowtie2 -p ${params.threads} --parallel ${params.parallelize} \
+    bismark --bowtie2 -p ${params.threads} --multicore ${params.parallelize} \
     --genome ${indexed_reference_directory} -1 ${trimmedRead1} -2 ${trimmedRead2} -o ${params.sampleId}
     """
 }
-
 
 
 
@@ -191,7 +190,6 @@ workflow{
     FAST_QC(paired_trimmed) //produces a QC report of trimmed reads. 
 
    
-    
     //called if reference genome is default
     if (params.index_requirement == 0){
         aligned_bam = ALIGNMENT(paired_trimmed, params.reference_genome)
