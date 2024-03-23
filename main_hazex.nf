@@ -160,8 +160,8 @@ process ALIGNMENT {
     script:
     def (trimmedRead1, trimmedRead2) = reads
     """
-    #SBATCH --ntasks=50
-    #SBATCH --time=3-00
+    #SBATCH --ntasks=100
+    #SBATCH --time=1-00
     #SBATCH --qos=bbdefault
     
     set -e
@@ -173,8 +173,7 @@ process ALIGNMENT {
 
     mkdir -p "${params.temps}/Alignments/${sampleId}"
 
-    bismark --bowtie2 -p ${params.threads} \
-    --genome ${indexed_reference_directory} -1 ${trimmedRead1} -2 ${trimmedRead2} -o ${params.sampleId}
+    bismark --bowtie2 -p ${params.threads} --genome ${indexed_reference_directory} -1 ${trimmedRead1} -2 ${trimmedRead2} -o ${params.sampleId}
     """
 }
 
