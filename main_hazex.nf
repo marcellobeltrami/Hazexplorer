@@ -3,12 +3,15 @@
 //https://www.nextflow.io/blog/2021/5_tips_for_hpc_users.html (investigate slurm integration with Nextflow.)
 
 
+//FIX: getting errors about a path not being a path.
+
+
 //params. use --parameter_name to change parameter
 params.paired_reads = './data/reads/*{1,2}.fq.gz' // remember to change this to null. Use example --paired_reads='./data/reads/*{1,2}.fq.gz'
-params.reference_genome= './data/references/Hazelnut_CavTom2PMs-1.0/fasta_ref/Bisulfite_Genome' //This path should be to the 
+params.reference_genome= "${baseDir}/data/references/Hazelnut_CavTom2PMs-1.0/fasta_ref" //This path should be the full path to reference genome.
 params.reference_name = "reference_name"
 params.results = "./results"
-
+params.temps = "${baseDir}/temps"
 params.index_requirement = 0 //change this to null 
 params.parallelize = 1
 params.threads = 4
@@ -25,11 +28,11 @@ if (params.paired_reads == null) {
 }
 
 if (params.index_requirement == null){
-    println("Indicate integer for indexing the reference genome is necessary. (0: non required, 1: required)")
+    println("Specify integer for indexing the reference genome is necessary. (0: non required, 1: required)")
     exit(1)
 }
 
-//Infor for the user.
+//Info for the user.
 log.info """\
 
     HAZEXPLORER - NF PIPELINE
@@ -58,7 +61,7 @@ process TRIM {
     #SBATCH --ntasks=1
     #SBATCH --time=15:00
     #SBATCH --qos=bbdefault
-    #SBATCH --mail-type=ALL 
+    
 
     set -e
 
@@ -88,12 +91,10 @@ process INDEX{
     script:
 
     """
-    
     #SBATCH --ntasks=5
     #SBATCH --time=3-00
     #SBATCH --qos=bbdefault
-    #SBATCH --account=catonim-epi-switch
-    #SBATCH --mail-type=ALL 
+    
     set -e
 
     module purge 
@@ -145,14 +146,16 @@ process FAST_QC{
 process ALIGNMENT {
     tag {sampleId}
     
-    publishDir "data/Alignments/${sampleId}/"
+    publishDir "${params.results}/Alignments/${sampleId}/"
     
     input:
     tuple val(sampleId) , path(reads) 
     path indexed_reference_directory 
     
     output:
-    path "*.bam"
+    file "*.bam"
+    file "*.txt"
+    file "*.fq.gz" optional true
 
     script:
     def (trimmedRead1, trimmedRead2) = reads
@@ -160,8 +163,7 @@ process ALIGNMENT {
     #SBATCH --ntasks=5
     #SBATCH --time=3-00
     #SBATCH --qos=bbdefault
-    #SBATCH --account=catonim-epi-switch
-    #SBATCH --mail-type=ALL 
+    
     set -e
 
     module purge 
