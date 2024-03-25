@@ -83,7 +83,7 @@ process TRIM {
 process INDEX{
     
     publishDir "${indexed_reference}/${reference_name}/"
-
+    memory '50 GB'
     input: 
         path reference_genome
     output: 
@@ -91,7 +91,7 @@ process INDEX{
     script:
 
     """
-    #SBATCH --ntasks=25
+    #SBATCH --ntasks=50
     #SBATCH --time=3-00
     #SBATCH --qos=bbdefault
     
@@ -145,7 +145,7 @@ process FAST_QC{
 //Aligns reads using bismark and bowtie2 
 process ALIGNMENT {
     tag {sampleId}
-    
+    memory '50 GB'
     publishDir "${params.results}/Alignments/${sampleId}/"
     
     input:
@@ -160,7 +160,7 @@ process ALIGNMENT {
     script:
     def (trimmedRead1, trimmedRead2) = reads
     """
-    #SBATCH --ntasks=100
+    #SBATCH --ntasks=50
     #SBATCH --time=1-00
     #SBATCH --qos=bbdefault
     
