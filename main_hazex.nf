@@ -49,6 +49,9 @@ process TRIM {
     tag {sampleId}
     publishDir "${trimmed_outputs}/${sampleId}"
     
+    memory 20.GB
+    time '1h'
+
     input:
     tuple val(sampleId) , path(reads) 
 
@@ -84,6 +87,7 @@ process INDEX{
     
     publishDir "${indexed_reference}/${reference_name}/"
     memory 50.GB
+    time '1day'
     input: 
         path reference_genome
     output: 
@@ -112,6 +116,9 @@ process FAST_QC{
     tag {sampleId}
     publishDir "${params.results}/QC/${sampleId}"
     
+    memory 20.GB
+    time '1h'
+
     input:
     tuple val(sampleId) , path(reads) 
 
@@ -145,8 +152,10 @@ process FAST_QC{
 //Aligns reads using bismark and bowtie2 
 process ALIGNMENT {
     tag {sampleId}
+
     memory 50.GB
     time '1day'
+
     publishDir "${params.results}/Alignments/${sampleId}/"
     
     input:
@@ -161,7 +170,9 @@ process ALIGNMENT {
     script:
     def (trimmedRead1, trimmedRead2) = reads
     """
-    
+    #SBATCH --ntasks=50
+    #SBATCH --time=1-00
+    #SBATCH --qos=bbdefault
     
     set -e
 
