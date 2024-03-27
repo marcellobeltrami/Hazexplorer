@@ -8,9 +8,6 @@
 
 set -e
 
-### module load slurm-interactive ###
-### fisbatch_screen --nodes=1-1 --ntasks=2 --time=1:0:0 ###
-
 module purge
 
 module load bear-apps/2022a/
