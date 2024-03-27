@@ -47,5 +47,5 @@ Directories structure are as follows:
 
 - **logs**: as this tool is meant to be used with slurm scheduler, logs from slurm jobs will be stored here.
 
-- **temps**: will contain temporary files and other files generated during analysis. 
+- **work**: will be generate at Nextflow runtime and will contain temporary files and other files generated during analysis. 
 

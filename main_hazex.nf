@@ -1,7 +1,7 @@
 #!/usr/bin/env nextflow
 
 
-//params. use --parameter_name to change parameter
+// params. use --parameter_name to change parameter
 params.paired_reads = './data/reads/*{1,2}.fq.gz' // remember to change this to null. Use example --paired_reads='./data/reads/*{1,2}.fq.gz'
 params.reference_genome= "${baseDir}/data/references/Hazelnut_CavTom2PMs-1.0/fasta_ref" //This path should be the full path to reference genome.
 params.reference_name = "reference_name"
@@ -11,25 +11,27 @@ params.index_requirement = 0 //change this to null
 params.parallelize = 1
 params.threads = 4
 
+// 
+def help = params.help ?: false
 if (params.help){
-    log.info
-    """
+    log.info """\
+    
     Command options:
     
-    --paired_reads=<pattern>            Path to paired-end reads in FASTQ format. Use the pattern "./data/reads/*{1,2}.fq.gz".
-    --reference_genome=<path>           Full path to the reference genome in FASTA format.
-    --reference_name=<name>             Name for the reference genome.
-    --results=<directory>               Directory to store the pipeline results (default: ./results).
-    --index_requirement=<value>         Specify an integer (0 or 1) to indicate if indexing the reference genome is required (0: not required, 1: required).
-    --parallelize=<value>               Specify the level of parallelization (default: 1).
-    --threads=<value>                   Specify the number of threads to use for parallel tasks (default: 4).
-    --help                              Display this help message and exit.
+    --paired_reads=<pattern>      Path to paired-end reads in FASTQ format. Use the pattern "./data/reads/*{1,2}.fq.gz".
+    --reference_genome=<path>     Full path to the reference genome in FASTA format.
+    --reference_name=<name>       Name for the reference genome.
+    --results=<directory>         Directory to store the pipeline results (default: ./results).
+    --index_requirement=<value>   Specify an integer (0 or 1) to indicate if indexing the reference genome is required (0: not required, 1: required).
+    --parallelize=<value>         Specify the level of parallelization (default: 1).
+    --threads=<value>             Specify the number of threads to use for parallel tasks (default: 4).
+    --help                        Display this help message and exit.
     """
-
+    exit (" ")
 }
 
 
-//Global variables
+// Global variables
 trimmed_outputs= "${baseDir}/data/trimmed/"
 indexed_reference = "${baseDir}/data/references/"
 temps = "${baseDir}/temps/"
