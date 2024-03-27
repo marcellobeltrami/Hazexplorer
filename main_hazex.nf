@@ -1,10 +1,5 @@
 #!/usr/bin/env nextflow
 
-//https://www.nextflow.io/blog/2021/5_tips_for_hpc_users.html (investigate slurm integration with Nextflow.)
-
-
-//FIX: getting errors about a path not being a path.
-
 
 //params. use --parameter_name to change parameter
 params.paired_reads = './data/reads/*{1,2}.fq.gz' // remember to change this to null. Use example --paired_reads='./data/reads/*{1,2}.fq.gz'
@@ -21,7 +16,7 @@ trimmed_outputs= "${baseDir}/data/trimmed/"
 indexed_reference = "${baseDir}/data/references/"
 temps = "${baseDir}/temps/"
 
-//Checks if fundamental parameters have been specified.
+// Checks if fundamental parameters have been specified.
 if (params.paired_reads == null) {
       println("Specify reads using paired_reads")
       exit(1)
@@ -32,7 +27,7 @@ if (params.index_requirement == null){
     exit(1)
 }
 
-//Info for the user.
+// Info for the user.
 log.info """\
 
     HAZEXPLORER - NF PIPELINE
@@ -49,9 +44,6 @@ process TRIM {
     tag {sampleId}
     publishDir "${trimmed_outputs}/${sampleId}"
     
-    memory 20.GB
-    time '1h'
-
     input:
     tuple val(sampleId) , path(reads) 
 
@@ -86,8 +78,7 @@ process TRIM {
 process INDEX{
     
     publishDir "${indexed_reference}/${reference_name}/"
-    memory 50.GB
-    time '1day'
+    
     input: 
         path reference_genome
     output: 
@@ -116,9 +107,6 @@ process FAST_QC{
     tag {sampleId}
     publishDir "${params.results}/QC/${sampleId}"
     
-    memory 20.GB
-    time '1h'
-
     input:
     tuple val(sampleId) , path(reads) 
 
@@ -153,9 +141,6 @@ process FAST_QC{
 process ALIGNMENT {
     tag {sampleId}
 
-    memory 50.GB
-    time '1day'
-
     publishDir "${params.results}/Alignments/${sampleId}/"
     
     input:
@@ -187,6 +172,8 @@ process ALIGNMENT {
     """
 }
 
+
+//Create a process for SNP calling.
 
 
 workflow{
