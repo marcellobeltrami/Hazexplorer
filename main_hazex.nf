@@ -11,6 +11,24 @@ params.index_requirement = 0 //change this to null
 params.parallelize = 1
 params.threads = 4
 
+if (params.help){
+    log.info
+    """
+    Command options:
+    
+    --paired_reads=<pattern>            Path to paired-end reads in FASTQ format. Use the pattern "./data/reads/*{1,2}.fq.gz".
+    --reference_genome=<path>           Full path to the reference genome in FASTA format.
+    --reference_name=<name>             Name for the reference genome.
+    --results=<directory>               Directory to store the pipeline results (default: ./results).
+    --index_requirement=<value>         Specify an integer (0 or 1) to indicate if indexing the reference genome is required (0: not required, 1: required).
+    --parallelize=<value>               Specify the level of parallelization (default: 1).
+    --threads=<value>                   Specify the number of threads to use for parallel tasks (default: 4).
+    --help                              Display this help message and exit.
+    """
+
+}
+
+
 //Global variables
 trimmed_outputs= "${baseDir}/data/trimmed/"
 indexed_reference = "${baseDir}/data/references/"
