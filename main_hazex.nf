@@ -73,10 +73,7 @@ process TRIM {
     script:
     def (read1, read2) = reads
     """
-    #SBATCH --ntasks=1
-    #SBATCH --time=15:00
-    #SBATCH --qos=bbdefault
-    
+   
 
     set -e
 
