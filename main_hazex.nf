@@ -11,7 +11,7 @@ params.index_requirement = 0 //change this to null
 params.parallelize = 1
 params.threads = 4
 
-// 
+// Help function with useful parameters.
 def help = params.help ?: false
 if (params.help){
     log.info """\
