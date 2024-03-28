@@ -18,7 +18,7 @@ if (params.help){
     
     Command options:
     
-    --paired_reads=<pattern>      Path to paired-end reads in FASTQ format. Use the pattern "./data/reads/*{1,2}.fq.gz".
+    --paired_reads=<pattern>      Path to paired-end reads in FASTQ format.  Use the pattern "./data/reads/*{1,2}.fq.gz". By default reads are looked into the ./data/reads/ directory
     --reference_genome=<path>     Full path to the reference genome in FASTA format.
     --reference_name=<name>       Name for the reference genome.
     --results=<directory>         Directory to store the pipeline results (default: ./results).
