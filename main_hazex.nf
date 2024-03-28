@@ -73,8 +73,6 @@ process TRIM {
     script:
     def (read1, read2) = reads
     """
-   
-
     set -e
 
     module purge; module load bluebear
@@ -103,10 +101,6 @@ process INDEX{
     script:
 
     """
-    #SBATCH --ntasks=50
-    #SBATCH --time=3-00
-    #SBATCH --qos=bbdefault
-    
     set -e
 
     module purge 
@@ -135,11 +129,6 @@ process FAST_QC{
     script:
     def (read1, read2) = reads
     """
-    #SBATCH --ntasks=1
-    #SBATCH --time=15:00
-    #SBATCH --qos=bbdefault
-    #SBATCH --mail-type=ALL 
-
     set -e
 
     module purge; module load bluebear
@@ -172,10 +161,6 @@ process ALIGNMENT {
     script:
     def (trimmedRead1, trimmedRead2) = reads
     """
-    #SBATCH --ntasks=50
-    #SBATCH --time=1-00
-    #SBATCH --qos=bbdefault
-    
     set -e
 
     module purge 
