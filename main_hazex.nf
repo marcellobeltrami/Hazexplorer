@@ -8,8 +8,8 @@ params.reference_name = "reference_name"
 params.results = "./results"
 params.temps = "${baseDir}/temps"
 params.index_requirement = 0 //change this to null 
-params.parallelize = 1
-params.threads = 4
+params.parallelize = 4
+params.threads = 6
 
 // Help function with useful parameters.
 def help = params.help ?: false
@@ -146,15 +146,13 @@ process FAST_QC{
 //Aligns reads using bismark and bowtie2 
 process ALIGNMENT {
     tag {sampleId}
-
-    publishDir "${params.results}/Alignments/${sampleId}/"
     
     input:
     tuple val(sampleId) , path(reads) 
     path indexed_reference_directory 
     
     output:
-    file "*.bam"
+    tuple val(sampleId), path ("${sampleId}_unsorted.bam")
     file "*.txt"
     file "*.fq.gz" optional true
 
@@ -163,21 +161,120 @@ process ALIGNMENT {
     """
     set -e
 
-    module purge 
-    module load bluebear 
+    module purge; module load bluebear 
     module load bear-apps/2021b
     module load Bismark/0.24.2-foss-2021b
 
     mkdir -p "${params.temps}/Alignments/${sampleId}"
 
-    bismark --bowtie2 -p ${params.threads} --genome ${indexed_reference_directory} -1 ${trimmedRead1} -2 ${trimmedRead2} -o ${params.sampleId}
+    bismark --bowtie2 -p ${params.threads} --multicore ${params.parallelize} --genome ${indexed_reference_directory} -1 ${trimmedRead1} -2 ${trimmedRead2} -o ${params.sampleId}
     """
 }
 
 
+//Create Picard Sorting in preparation for SNP calling
+
+process PICARD{
+    tag {sampleId}
+
+
+    input:
+    tuple val(sampleId), path ("${sampleId}_unsorted.bam")
+
+    output: 
+    tuple val(sampleId), path ("${sampleId}_pic_uns.bam")
+    
+
+    """
+    set -e 
+
+    module purge; module load bluebear
+    module load bear-apps/2022b/live
+    module load picard/2.27.5-Java-11
+
+    java -Xmx4g -jar picard.jar AddOrReplaceReadGroups \
+    I=${sampleId}_unsorted.bam \
+    O=${params.results}/Alignments/${sampleId}/ \
+    RGID=${sampleId}_RG \
+    RGLB=Unknown \
+    RGPL=ILLUMINA \
+    RGPU=Unknown \
+    RGSM=${sampleId} \
+    CREATE_INDEX=false
+
+    """
+
+}
+
+//carries out sorting of BAM files edited with PICARD. 
+process SAMTOOLS{
+    tag {sampleId}
+
+    publishDir "${params.results}/Alignments/${sampleId}/"
+
+    input:
+    tuple val(sampleId), path ("${sampleId}_pic_uns.bam")
+
+    output: 
+    tuple val(sampleId), path ("${sampleId}_pic_sorted.bam"), path ("${sampleId}_pic_sorted.bai")
+    
+
+    """
+    set -e
+
+    module purge; module load bluebear 
+    module load bear-apps/2022b/live
+    module load SAMtools/1.17-GCC-12.2.0
+
+    samtools sort ${sampleId}_pic_uns.bam -o ${sampleId}_pic_sorted.bam
+    samtools index ${sampleId}_pic_sorted.bam -o ${sampleId}_pic_sorted.bai
+    """
+
+
+}
+
+
+
 //Create a process for SNP calling.
+process BIS_SNP{
+    tag {sampleId}
+    publishDir "${params.results}/results/${sampleId}/"
+
+    input: 
+    tuple val(sampleId), path ("${sampleId}_pic_sorted.bam"), path ("${sampleId}_pic_sorted.bai")
+
+    output:
+    tuple val(sampleId), file "${sampleId}_*.vcf", file "${sampleId}_summary_count.txt"
+
+    script: 
+    """
+    set -e
+
+    module purge; moduel load bluebear
+    module load  bear-apps/2022b/live
+    module load  Java/17.0.6
+    module load SAMtools/1.17-GCC-12.2.0
+    module load  GATK/4.4.0.0-GCCcore-12.2.0-Java-17
+
+    #Calls SNPs using BisSNP
+
+    java -Xmx4g -jar ./tools/BisSNP-0.90.jar -R ${ref_location} \
+    -t 10  -T BisulfiteGenotyper -I ${sampleId}_pic_sorted.bam \
+    -vfn1 ${sampleId}_cpg.raw.vcf -vfn2 ${sampleId}_snp.raw.vcf
 
 
+    #Generates a summary table and graph for SNP amount found at each chromosome. 
+    
+    gatk VariantsToTable -V ${sampleId}_snp.raw.vcf -O ${sampleId}_table.txt -F CHROM -F TYPE | awk '{ count[$1]++ } END { for (chromosome in count) print chromosome, count[chromosome] }' ${sampleId}_table.txt > ${sampleId}_summary_count.txt
+
+    """
+
+
+}
+
+
+
+// Acts as the MAIN function, running each process in the most optimal way.
 workflow{
 
     //reads mates from a specified directory.
@@ -188,18 +285,21 @@ workflow{
     FAST_QC(paired_trimmed) //produces a QC report of trimmed reads. 
 
    
-    //called if reference genome is default
+    //called if reference genome is default or does not need indexing.
     if (params.index_requirement == 0){
         aligned_bam = ALIGNMENT(paired_trimmed, params.reference_genome)
-        //add snp calling
-        // ......
+        picard_out = PICARD(aligned_bam)
+        samtools_out = SAMTOOLS(picard_out)
+        bis_snp_out = BIS_SNP(samtools_out)
+            
     }
-    //called if reference genome is custom
+    //called if reference genome is custom and needs to be indexed.
     if (params.index_requirement == 1){
         indexed_reference = INDEX(params.reference_genome)
         aligned_bam = ALIGNMENT(paired_reads_trim, indexed_reference)
-        //add snp calling
-        // .....
+        picard_out = PICARD(aligned_bam)
+        samtools_out = SAMTOOLS(picard_out)
+        bis_snp_out = BIS_SNP(samtools_out)
     }
 
 }
