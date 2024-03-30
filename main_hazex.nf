@@ -153,8 +153,7 @@ process ALIGNMENT {
     
     output:
     tuple val(sampleId), path ("${sampleId}_unsorted.bam")
-    file "*.txt"
-    file "*.fq.gz" optional true
+    
 
     script:
     def (trimmedRead1, trimmedRead2) = reads
