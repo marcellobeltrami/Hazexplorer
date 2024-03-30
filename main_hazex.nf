@@ -261,8 +261,8 @@ process BIS_SNP {
     -t 10 -T BisulfiteGenotyper -I ${sampleId}_pic_sorted.bam \
     -vfn1 ${sampleId}_cpg.raw.vcf -vfn2 ${sampleId}_snp.raw.vcf
 
-    # Generates a summary table and graph for SNP amount found at each chromosome.
-    #gatk VariantsToTable -V ${sampleId}_snp.raw.vcf -F CHROM -F TYPE | awk '{ count[$1]++ } END' ${sampleId}_table.txt
+    # Add command that Generates a summary table and graph for SNP amount found at each chromosome.
+    
     """
 }
 
