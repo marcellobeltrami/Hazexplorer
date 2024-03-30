@@ -236,42 +236,35 @@ process SAMTOOLS{
 
 
 //Create a process for SNP calling.
-process BIS_SNP{
-    tag {sampleId}
+process BIS_SNP {
+    tag { sampleId }
     publishDir "${params.results}/results/${sampleId}/"
 
-    input: 
-    tuple val(sampleId), path ("${sampleId}_pic_sorted.bam"), path ("${sampleId}_pic_sorted.bai")
+    input:
+    tuple val(sampleId), path("${sampleId}_pic_sorted.bam"), path("${sampleId}_pic_sorted.bai")
 
     output:
-    tuple val(sampleId), file "${sampleId}_*.vcf", file "${sampleId}_summary_count.txt"
+    tuple val(sampleId), file("${sampleId}_*.vcf"), file("${sampleId}_summary_count.txt")
 
-    script: 
+    script:
     """
     set -e
 
-    module purge; moduel load bluebear
-    module load  bear-apps/2022b/live
-    module load  Java/17.0.6
+    module purge; module load bluebear
+    module load bear-apps/2022b/live
+    module load Java/17.0.6
     module load SAMtools/1.17-GCC-12.2.0
-    module load  GATK/4.4.0.0-GCCcore-12.2.0-Java-17
+    module load GATK/4.4.0.0-GCCcore-12.2.0-Java-17
 
-    #Calls SNPs using BisSNP
-
+    # Calls SNPs using BisSNP
     java -Xmx4g -jar ./tools/BisSNP-0.90.jar -R ${ref_location} \
-    -t 10  -T BisulfiteGenotyper -I ${sampleId}_pic_sorted.bam \
+    -t 10 -T BisulfiteGenotyper -I ${sampleId}_pic_sorted.bam \
     -vfn1 ${sampleId}_cpg.raw.vcf -vfn2 ${sampleId}_snp.raw.vcf
 
-
-    #Generates a summary table and graph for SNP amount found at each chromosome. 
-    
+    # Generates a summary table and graph for SNP amount found at each chromosome.
     gatk VariantsToTable -V ${sampleId}_snp.raw.vcf -O ${sampleId}_table.txt -F CHROM -F TYPE | awk '{ count[$1]++ } END { for (chromosome in count) print chromosome, count[chromosome] }' ${sampleId}_table.txt > ${sampleId}_summary_count.txt
-
     """
-
-
 }
-
 
 
 // Acts as the MAIN function, running each process in the most optimal way.
