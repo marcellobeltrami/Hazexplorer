@@ -262,7 +262,7 @@ process BIS_SNP {
     -vfn1 ${sampleId}_cpg.raw.vcf -vfn2 ${sampleId}_snp.raw.vcf
 
     # Generates a summary table and graph for SNP amount found at each chromosome.
-    gatk VariantsToTable -V ${sampleId}_snp.raw.vcf -O ${sampleId}_table.txt -F CHROM -F TYPE | awk '{ count[$1]++ } END { for (chromosome in count) print chromosome, count[chromosome] }' ${sampleId}_table.txt > ${sampleId}_summary_count.txt
+    "gatk VariantsToTable -V ${sampleId}_snp.raw.vcf -O ${sampleId}_table.txt -F CHROM -F TYPE | awk '{ count[$1]++ } END'"
     """
 }
 
