@@ -166,7 +166,8 @@ process ALIGNMENT {
 
     mkdir -p "${params.temps}/Alignments/${sampleId}"
 
-    bismark --bowtie2 -p ${params.threads} --multicore ${params.parallelize} --genome ${indexed_reference_directory} -1 ${trimmedRead1} -2 ${trimmedRead2} -o ${params.sampleId}
+    bismark --bowtie2 -p ${params.threads} --multicore ${params.parallelize} --genome ${indexed_reference_directory} \
+     -1 ${trimmedRead1} -2 ${trimmedRead2} -o ${sampleId}_unsorted.bam
     """
 }
 
