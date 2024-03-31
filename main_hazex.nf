@@ -192,7 +192,7 @@ process PICARD{
     module load bear-apps/2022b/live
     module load picard/2.27.5-Java-11
 
-    java -Xmx4g -jar picard.jar AddOrReplaceReadGroups \
+    java -Xmx4g -jar  $EBROOTPICARD/picard.jar AddOrReplaceReadGroups \
     I=${sampleId}_unsorted.bam \
     O=${params.results}/Alignments/${sampleId}/ \
     RGID=${sampleId}_RG \
