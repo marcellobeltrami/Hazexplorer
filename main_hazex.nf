@@ -190,9 +190,9 @@ process PICARD{
 
     module purge; module load bluebear
     module load bear-apps/2022b/live
-    module load picard/2.27.5-Java-11
+    module load Java/11.0.18
 
-    java -Xmx4g -jar  $EBROOTPICARD/picard.jar AddOrReplaceReadGroups \
+    java -Xmx4g -jar  ./tools/picard.jar AddOrReplaceReadGroups \
     I=${sampleId}_unsorted.bam \
     O=${params.results}/Alignments/${sampleId}/ \
     RGID=${sampleId}_RG \
