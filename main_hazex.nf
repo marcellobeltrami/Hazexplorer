@@ -153,7 +153,7 @@ process ALIGNMENT {
     path indexed_reference_directory 
     
     output:
-    tuple val(sampleId), path ("${sampleId}_unsorted.bam")
+    tuple val(sampleId), path ("${sampleId}_unsorted")
     
 
     script:
@@ -180,7 +180,7 @@ process PICARD{
 
 
     input:
-    tuple val(sampleId), path ("${sampleId}_unsorted.bam")
+    tuple val(sampleId), path ("${sampleId}_unsorted/*.bam")
 
     output: 
     tuple val(sampleId), path ("${sampleId}_pic_uns.bam")
@@ -195,8 +195,8 @@ process PICARD{
     module load Java/17.0.6
 
     java -Xmx4g -jar  ${params.pipeline_loc}/tools/picard.jar AddOrReplaceReadGroups \
-    I=${sampleId}_unsorted.bam \
-    O=${params.results}/Alignments/${sampleId}/ \
+    I=${sampleId}_unsorted/*.bam \
+    O=${sampleId}_pic_uns.bam \
     RGID=${sampleId}_RG \
     RGLB=Unknown \
     RGPL=ILLUMINA \
@@ -215,7 +215,7 @@ process SAMTOOLS{
     publishDir "${params.results}/Alignments/${sampleId}/"
 
     input:
-    tuple val(sampleId), path ("${sampleId}_pic_uns.bam")
+    tuple val(sampleId), path ("${sampleId}_pic_uns/*.bam")
 
     output: 
     tuple val(sampleId), path ("${sampleId}_pic_sorted.bam"), path ("${sampleId}_pic_sorted.bai")
@@ -228,8 +228,8 @@ process SAMTOOLS{
     module load bear-apps/2022b/live
     module load SAMtools/1.17-GCC-12.2.0
 
-    samtools sort ${sampleId}_pic_uns.bam -o ${sampleId}_pic_sorted.bam
-    samtools index ${sampleId}_pic_sorted.bam -o ${sampleId}_pic_sorted.bai
+    samtools sort ${sampleId}_pic_uns.bam -o ${sampleId}_pic_sorted.bam && samtools index ${sampleId}_pic_sorted.bam
+
     """
 
 
