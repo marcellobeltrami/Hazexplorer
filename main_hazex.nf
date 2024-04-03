@@ -5,6 +5,7 @@
 params.paired_reads = './data/reads/*{1,2}.fq.gz' // remember to change this to null. Use example --paired_reads='./data/reads/*{1,2}.fq.gz'
 params.reference_genome= "${baseDir}/data/references/Hazelnut_CavTom2PMs-1.0/fasta_ref" //This path should be the full path to reference genome.
 params.reference_name = "reference_name"
+params.pipeline_loc = "/rds/projects/l/lunadiee-epi-virtualmchine/Students/gp_project_MSKD/Hazexplorer/" //full path such as full/path/to/Hazexplore/
 params.results = "./results"
 params.temps = "${baseDir}/temps"
 params.index_requirement = 0 //change this to null 
@@ -192,7 +193,7 @@ process PICARD{
     module load bear-apps/2022b/live
     module load Java/11.0.18
 
-    java -Xmx4g -jar  ./tools/picard.jar AddOrReplaceReadGroups \
+    java -Xmx4g -jar  ${params.pipeline_loc}/tools/picard.jar AddOrReplaceReadGroups \
     I=${sampleId}_unsorted.bam \
     O=${params.results}/Alignments/${sampleId}/ \
     RGID=${sampleId}_RG \
@@ -257,7 +258,7 @@ process BIS_SNP {
     module load GATK/4.4.0.0-GCCcore-12.2.0-Java-17
 
     # Calls SNPs using BisSNP
-    java -Xmx4g -jar ./tools/BisSNP-0.90.jar -R ${ref_location} \
+    java -Xmx4g -jar ${params.pipeline_loc}/tools/BisSNP-0.90.jar -R ${ref_location} \
     -t 10 -T BisulfiteGenotyper -I ${sampleId}_pic_sorted.bam \
     -vfn1 ${sampleId}_cpg.raw.vcf -vfn2 ${sampleId}_snp.raw.vcf
 
