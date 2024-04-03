@@ -190,8 +190,9 @@ process PICARD{
     set -e 
 
     module purge; module load bluebear
+    module load bear-apps/2022a/live
     module load bear-apps/2022b/live
-    module load Java/11.0.18
+    module load Java/17.0.6
 
     java -Xmx4g -jar  ${params.pipeline_loc}/tools/picard.jar AddOrReplaceReadGroups \
     I=${sampleId}_unsorted.bam \
