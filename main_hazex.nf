@@ -180,13 +180,13 @@ process PICARD{
 
 
     input:
-    tuple val(sampleId), path ("${sampleId}_unsorted/*.bam")
+    tuple val(sampleId), path ("./${sampleId}_unsorted/*.bam")
 
     output: 
     tuple val(sampleId), path ("${sampleId}_pic_uns.bam")
     
     script: 
-    def bam_file = "${sampleId}_unsorted/*.bam"
+    
     """
     set -e 
 
@@ -194,8 +194,6 @@ process PICARD{
     module load bear-apps/2022a/live
     module load bear-apps/2022b/live
     module load Java/17.0.6
-
-    echo ${bam_file}
 
     java -Xmx4g -jar  ${params.pipeline_loc}/tools/picard.jar AddOrReplaceReadGroups \
     I=${bam_file} \
