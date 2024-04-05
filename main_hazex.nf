@@ -195,8 +195,10 @@ process PICARD{
     module load bear-apps/2022b/live
     module load Java/17.0.6
 
+    echo ${bam_file}
+
     java -Xmx4g -jar  ${params.pipeline_loc}/tools/picard.jar AddOrReplaceReadGroups \
-    I=*.bam \
+    I=${bam_file} \
     O=${sampleId}_pic_uns.bam \
     RGID=${sampleId}_RG \
     RGLB=Unknown \
