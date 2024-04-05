@@ -196,7 +196,7 @@ process PICARD{
     module load Java/17.0.6
 
     java -Xmx4g -jar  ${params.pipeline_loc}/tools/picard.jar AddOrReplaceReadGroups \
-    I=${bam_file} \
+    I=./${sampleId}_unsorted/*.bam \
     O=${sampleId}_pic_uns.bam \
     RGID=${sampleId}_RG \
     RGLB=Unknown \
