@@ -180,13 +180,13 @@ process PICARD{
 
 
     input:
-    tuple val(sampleId), path ("${sampleId}*.bam"), path ("${sampleId}*.txt")
+    tuple val(sampleId), path (bam_file_in), path (bismark_report)
 
     output: 
     tuple val(sampleId), file ("${sampleId}*.bam")
     
     script: 
-    
+    def bam_file = bam_file_in
     """
     set -e 
 
@@ -197,7 +197,7 @@ process PICARD{
 
 
     java -Xmx4g -jar  ${params.pipeline_loc}/tools/picard.jar AddOrReplaceReadGroups \
-    I="${sampleId}*.bam" \
+    I=${bam_file} \
     O=${sampleId}_pic_uns.bam \
     RGID=${sampleId}_RG \
     RGLB=Unknown \
