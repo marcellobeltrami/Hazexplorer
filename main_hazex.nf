@@ -180,7 +180,7 @@ process PICARD{
 
 
     input:
-    tuple val(sampleId), path ("./${sampleId}_unsorted/*.bam")
+    tuple val(sampleId), path ("${sampleId}_unsorted")
 
     output: 
     tuple val(sampleId), path ("${sampleId}_pic_uns.bam")
@@ -196,7 +196,7 @@ process PICARD{
     module load Java/17.0.6
 
     java -Xmx4g -jar  ${params.pipeline_loc}/tools/picard.jar AddOrReplaceReadGroups \
-    I=./${sampleId}_unsorted/*.bam \
+    I=${sampleId}_unsorted/*.bam \
     O=${sampleId}_pic_uns.bam \
     RGID=${sampleId}_RG \
     RGLB=Unknown \
