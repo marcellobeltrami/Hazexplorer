@@ -153,7 +153,7 @@ process ALIGNMENT {
     path indexed_reference_directory 
     
     output:
-    tuple val(sampleId), path ("${sampleId}_unsorted")
+    tuple val(sampleId), path ("${sampleId}_unsorted/")
     
 
     script:
@@ -168,7 +168,7 @@ process ALIGNMENT {
     mkdir -p "${params.temps}/Alignments/${sampleId}"
 
     bismark --bowtie2 -p ${params.threads} --multicore ${params.parallelize} --genome ${indexed_reference_directory} \
-     -1 ${trimmedRead1} -2 ${trimmedRead2} -o ${sampleId}_unsorted
+     -1 ${trimmedRead1} -2 ${trimmedRead2} -o ${sampleId}_unsorted/
     """
 }
 
@@ -180,7 +180,7 @@ process PICARD{
 
 
     input:
-    tuple val(sampleId), path ("${sampleId}_unsorted")
+    tuple val(sampleId), path ("${sampleId}_unsorted/")
 
     output: 
     tuple val(sampleId), path ("${sampleId}_pic_uns.bam")
