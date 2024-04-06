@@ -153,7 +153,7 @@ process ALIGNMENT {
     path indexed_reference_directory 
     
     output:
-    tuple val(sampleId), path ("${sampleId}_unsorted/")
+    tuple val(sampleId), path ("${sampleId}_unsorted.bam")
     
 
     script:
@@ -168,7 +168,7 @@ process ALIGNMENT {
     mkdir -p "${params.temps}/Alignments/${sampleId}"
 
     bismark --bowtie2 -p ${params.threads} --multicore ${params.parallelize} --genome ${indexed_reference_directory} \
-     -1 ${trimmedRead1} -2 ${trimmedRead2} -o ${sampleId}_unsorted/
+     -1 ${trimmedRead1} -2 ${trimmedRead2} --bam ${sampleId}_unsorted.bam
     """
 }
 
@@ -180,10 +180,10 @@ process PICARD{
 
 
     input:
-    tuple val(sampleId), path ("${sampleId}_unsorted/")
+    tuple val(sampleId), path ("${sampleId}_unsorted.bam")
 
     output: 
-    tuple val(sampleId), path ("${sampleId}_pic_uns.bam")
+    tuple val(sampleId), file ("${sampleId}_pic_uns.bam")
     
     script: 
     
@@ -195,8 +195,10 @@ process PICARD{
     module load bear-apps/2022b/live
     module load Java/17.0.6
 
+    bam_file=${sampleId}_unsorted.bam
+
     java -Xmx4g -jar  ${params.pipeline_loc}/tools/picard.jar AddOrReplaceReadGroups \
-    I=${sampleId}_unsorted/*.bam \
+    I=${bam_file} \
     O=${sampleId}_pic_uns.bam \
     RGID=${sampleId}_RG \
     RGLB=Unknown \
@@ -216,10 +218,10 @@ process SAMTOOLS{
     publishDir "${params.results}/Alignments/${sampleId}/"
 
     input:
-    tuple val(sampleId), path ("${sampleId}_pic_uns/*.bam")
+    tuple val(sampleId), file ("${sampleId}_pic_uns.bam")
 
     output: 
-    tuple val(sampleId), path ("${sampleId}_pic_sorted.bam"), path ("${sampleId}_pic_sorted.bai")
+    tuple val(sampleId), file ("${sampleId}_pic_sorted.bam"), file ("${sampleId}_pic_sorted.bai")
     
 
     """
