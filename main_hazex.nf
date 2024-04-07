@@ -175,7 +175,7 @@ process ALIGNMENT {
 
 //Create Picard Sorting in preparation for SNP calling
 
-process PICARD{
+process PICARD1{
     tag {sampleId}
 
 
@@ -258,7 +258,7 @@ workflow{
     //called if reference genome is default or does not need indexing.
     if (params.index_requirement == 0){
         aligned_bam = ALIGNMENT(paired_trimmed, params.reference_genome)
-        picard_out = PICARD(aligned_bam)
+        picard_out = PICARD1(aligned_bam)
         bis_snp_out = BIS_SNP(picard_out)
             
     }
@@ -266,9 +266,8 @@ workflow{
     if (params.index_requirement == 1){
         indexed_reference = INDEX(params.reference_genome)
         aligned_bam = ALIGNMENT(paired_reads_trim, indexed_reference)
-        picard_out = PICARD(aligned_bam)
-        samtools_out = SAMTOOLS(picard_out)
-        bis_snp_out = BIS_SNP(samtools_out)
+        picard_out = PICARD1(aligned_bam)
+        bis_snp_out = BIS_SNP(picard_out)
     }
 
 }
