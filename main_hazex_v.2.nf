@@ -217,12 +217,13 @@ process SAMTOOLS{
     publishDir "${params.results}/Alignments/${sampleId}/"
 
     input:
-    tuple val(sampleId), file ("${sampleId}*.bam")
+    tuple val(sampleId), path (unsorted_bam_file)
 
     output: 
-    tuple val(sampleId), file ("${sampleId}_pic_sorted.bam"), file ("${sampleId}_pic_sorted.bai")
+    tuple val(sampleId), file ("${sampleId}*.bam"), file ("${sampleId}*.bai")
     
-
+    script: 
+    def bam_file = unsorted_bam_file
     """
     set -e
 
@@ -230,7 +231,8 @@ process SAMTOOLS{
     module load bear-apps/2022b/live
     module load SAMtools/1.17-GCC-12.2.0
 
-    samtools sort "${sampleId}*.bam" -o ${sampleId}_pic_sorted.bam && samtools index ${sampleId}_pic_sorted.bam
+    ##samtools sort ${bam_file} > ${sampleId}_pic_sorted.bam
+    samtools sort ${bam_file} | samtools index ${sampleId}_pic_sorted.bam
 
     """
 
@@ -245,12 +247,14 @@ process BIS_SNP {
     publishDir "${params.results}/results/${sampleId}/"
 
     input:
-    tuple val(sampleId), path("${sampleId}_pic_sorted.bam"), path("${sampleId}_pic_sorted.bai")
+    tuple val(sampleId), path(sorted_bam_file), path(bai_file)
 
     output:
-    tuple val(sampleId), file("${sampleId}_*.vcf"), file("${sampleId}_summary_count.txt")
+    tuple val(sampleId), file("${sampleId}*.vcf"), file("${sampleId}*.txt")
 
     script:
+    def bam_file = sorted_bam_file
+    def bai_index = bai_file
     """
     set -e
 
@@ -262,7 +266,7 @@ process BIS_SNP {
 
     # Calls SNPs using BisSNP
     java -Xmx4g -jar ${params.pipeline_loc}/tools/BisSNP-0.90.jar -R ${ref_location} \
-    -t 10 -T BisulfiteGenotyper -I ${sampleId}_pic_sorted.bam \
+    -t 10 -T BisulfiteGenotyper -I ${bam_file} \
     -vfn1 ${sampleId}_cpg.raw.vcf -vfn2 ${sampleId}_snp.raw.vcf
 
     # Add command that Generates a summary table and graph for SNP amount found at each chromosome.
