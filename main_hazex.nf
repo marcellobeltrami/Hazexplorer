@@ -153,7 +153,7 @@ process ALIGNMENT {
     path indexed_reference_directory 
     
     output:
-    tuple val(sampleId), path ("${sampleId}_unsorted.bam")
+    tuple val(sampleId), path ("${sampleId}*.bam"), path ("${sampleId}*.txt")
     
 
     script:
@@ -168,7 +168,7 @@ process ALIGNMENT {
     mkdir -p "${params.temps}/Alignments/${sampleId}"
 
     bismark --bowtie2 -p ${params.threads} --multicore ${params.parallelize} --genome ${indexed_reference_directory} \
-     -1 ${trimmedRead1} -2 ${trimmedRead2} --bam ${sampleId}_unsorted.bam
+     -1 ${trimmedRead1} -2 ${trimmedRead2} --bam 
     """
 }
 
@@ -180,13 +180,13 @@ process PICARD{
 
 
     input:
-    tuple val(sampleId), path ("${sampleId}_unsorted.bam")
+    tuple val(sampleId), path (bam_file_in), path (bismark_report)
 
     output: 
-    tuple val(sampleId), file ("${sampleId}_pic_uns.bam")
+    tuple val(sampleId), file ("*.bam") file ("*.bai")
     
     script: 
-    
+    def bam_file = bam_file_in
     """
     set -e 
 
@@ -195,49 +195,19 @@ process PICARD{
     module load bear-apps/2022b/live
     module load Java/17.0.6
 
-    bam_file=${sampleId}_unsorted.bam
 
     java -Xmx4g -jar  ${params.pipeline_loc}/tools/picard.jar AddOrReplaceReadGroups \
     I=${bam_file} \
-    O=${sampleId}_pic_uns.bam \
     RGID=${sampleId}_RG \
     RGLB=Unknown \
     RGPL=ILLUMINA \
     RGPU=Unknown \
     RGSM=${sampleId} \
-    CREATE_INDEX=false
+    CREATE_INDEX=false | java -Xmx4g -jar  ${params.pipeline_loc}/tools/picard.jar SortSam OUTPUT=${sampleId}_sorted.bam SORT_ORDER=coordinate CREATE_INDEX=true
 
     """
 
 }
-
-//carries out sorting of BAM files edited with PICARD. 
-process SAMTOOLS{
-    tag {sampleId}
-
-    publishDir "${params.results}/Alignments/${sampleId}/"
-
-    input:
-    tuple val(sampleId), file ("${sampleId}_pic_uns.bam")
-
-    output: 
-    tuple val(sampleId), file ("${sampleId}_pic_sorted.bam"), file ("${sampleId}_pic_sorted.bai")
-    
-
-    """
-    set -e
-
-    module purge; module load bluebear 
-    module load bear-apps/2022b/live
-    module load SAMtools/1.17-GCC-12.2.0
-
-    samtools sort ${sampleId}_pic_uns.bam -o ${sampleId}_pic_sorted.bam && samtools index ${sampleId}_pic_sorted.bam
-
-    """
-
-
-}
-
 
 
 //Create a process for SNP calling.
@@ -246,12 +216,14 @@ process BIS_SNP {
     publishDir "${params.results}/results/${sampleId}/"
 
     input:
-    tuple val(sampleId), path("${sampleId}_pic_sorted.bam"), path("${sampleId}_pic_sorted.bai")
+    tuple val(sampleId), path(sorted_bam_file), path(bai_file)
 
     output:
-    tuple val(sampleId), file("${sampleId}_*.vcf"), file("${sampleId}_summary_count.txt")
+    tuple val(sampleId), file("${sampleId}*.vcf"), file("${sampleId}*.txt")
 
     script:
+    def bam_file = sorted_bam_file
+    def bai_index = bai_file
     """
     set -e
 
@@ -263,7 +235,7 @@ process BIS_SNP {
 
     # Calls SNPs using BisSNP
     java -Xmx4g -jar ${params.pipeline_loc}/tools/BisSNP-0.90.jar -R ${ref_location} \
-    -t 10 -T BisulfiteGenotyper -I ${sampleId}_pic_sorted.bam \
+    -t 10 -T BisulfiteGenotyper -I ${bam_file} \
     -vfn1 ${sampleId}_cpg.raw.vcf -vfn2 ${sampleId}_snp.raw.vcf
 
     # Add command that Generates a summary table and graph for SNP amount found at each chromosome.
@@ -287,8 +259,7 @@ workflow{
     if (params.index_requirement == 0){
         aligned_bam = ALIGNMENT(paired_trimmed, params.reference_genome)
         picard_out = PICARD(aligned_bam)
-        samtools_out = SAMTOOLS(picard_out)
-        bis_snp_out = BIS_SNP(samtools_out)
+        bis_snp_out = BIS_SNP(picard_out)
             
     }
     //called if reference genome is custom and needs to be indexed.
