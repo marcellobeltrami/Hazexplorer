@@ -183,7 +183,7 @@ process PICARD{
     tuple val(sampleId), path (bam_file_in), path (bismark_report)
 
     output: 
-    tuple val(sampleId), file ("${sampleId}*.bam")
+    tuple val(sampleId), file ("*.bam")
     
     script: 
     def bam_file = bam_file_in
@@ -220,7 +220,7 @@ process SAMTOOLS{
     tuple val(sampleId), path (unsorted_bam_file)
 
     output: 
-    tuple val(sampleId), file ("${sampleId}*.bam"), file ("${sampleId}*.bai")
+    tuple val(sampleId), file ("*.bam"), file ("*.bai")
     
     script: 
     def bam_file = unsorted_bam_file
