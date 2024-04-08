@@ -269,7 +269,7 @@ process BIS_SNP {
     module load GATK/4.4.0.0-GCCcore-12.2.0-Java-17
 
     # Calls SNPs using BisSNP
-    java -Xmx4g -jar ${params.pipeline_loc}/tools/BisSNP-0.90.jar -R "${params.reference_genome}/*.fa" \
+    java -Xmx4g -jar ${params.pipeline_loc}/tools/BisSNP-0.90.jar -R ${params.reference_genome}/*.fa \
     -nt 10 -T BisulfiteGenotyper -I ${bam_file} \
     -vfn1 ${sampleId}_cpg.raw.vcf -vfn2 ${sampleId}_snp.raw.vcf
 
