@@ -227,12 +227,16 @@ process SAMTOOLS{
     """
     set -e
 
-    module purge; module load bluebear 
+    module purge; module load bluebear
+    module load bear-apps/2022a/live
     module load bear-apps/2022b/live
-    module load SAMtools/1.17-GCC-12.2.0
+    module load Java/17.0.6
 
-    ##samtools sort ${bam_file} > ${sampleId}_pic_sorted.bam
-    samtools sort ${bam_file} | samtools index ${sampleId}_pic_sorted.bam
+    java -Xmx4g -jar  ${params.pipeline_loc}/tools/picard.jar SortSam \
+    I=${bam_file} \
+    O=${sampleId}_sorted.bam \
+    SORT_ORDER=coordinate \
+    CREATE_INDEX=true
 
     """
 
