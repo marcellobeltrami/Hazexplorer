@@ -270,7 +270,7 @@ process BIS_SNP {
 
     # Calls SNPs using BisSNP
     java -Xmx4g -jar ${params.pipeline_loc}/tools/BisSNP-0.90.jar -R ${params.reference_genome} \
-    -t 10 -T BisulfiteGenotyper -I ${bam_file} \
+    -nt 10 -T BisulfiteGenotyper -I ${bam_file} \
     -vfn1 ${sampleId}_cpg.raw.vcf -vfn2 ${sampleId}_snp.raw.vcf
 
     # Add command that Generates a summary table and graph for SNP amount found at each chromosome.
