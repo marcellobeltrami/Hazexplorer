@@ -3,7 +3,7 @@
 
 // params. use --parameter_name to change parameter
 params.paired_reads = './data/reads/*{1,2}.fq.gz' // remember to change this to null. Use example --paired_reads='./data/reads/*{1,2}.fq.gz'
-params.reference_genome= "${baseDir}/data/references/Hazelnut_CavTom2PMs-1.0/fasta_ref" //This path should be the full path to reference genome.
+params.reference_genome= "${baseDir}/data/references/Hazelnut_CavTom2PMs-1.0/fasta_ref" //This path should be the full path to reference genome. 
 params.reference_name = "reference_name"
 params.pipeline_loc = "/rds/projects/l/lunadiee-epi-virtualmchine/Students/gp_project_MSKD/Hazexplorer/" //full path such as full/path/to/Hazexplore/
 params.results = "./results"
@@ -21,11 +21,11 @@ if (params.help){
     
     --paired_reads=<pattern>      Path to paired-end reads in FASTQ format.  Use the pattern "./data/reads/*{1,2}.fq.gz". By default reads are looked into the ./data/reads/ directory
     --reference_genome=<path>     Full path to the reference genome in FASTA format.
-    --reference_name=<name>       Name for the reference genome.
+    --reference_name=<name>       Name for the reference genome. Make sure it contains the .fa reference file. 
     --results=<directory>         Directory to store the pipeline results (default: ./results).
     --index_requirement=<value>   Specify an integer (0 or 1) to indicate if indexing the reference genome is required (0: not required, 1: required).
     --parallelize=<value>         Specify the level of parallelization (default: 1).
-    --threads=<value>             Specify the number of threads to use for parallel tasks (default: 4).
+    --threads=<value>             Specify the number of threads to use for parallel tasks (default: 6).
     --help                        Display this help message and exit.
     """
     exit (" ")
@@ -294,8 +294,8 @@ workflow{
     if (params.index_requirement == 0){
         aligned_bam = ALIGNMENT(paired_trimmed, params.reference_genome)
         picard_out = PICARD(aligned_bam)
-        samtools_out = SORTING(picard_out)
-        bis_snp_out = BIS_SNP(samtools_out)
+        sort_out = SORTING(picard_out)
+        bis_snp_out = BIS_SNP(sort_out)
             
     }
     //called if reference genome is custom and needs to be indexed.
@@ -303,8 +303,8 @@ workflow{
         indexed_reference = INDEX(params.reference_genome)
         aligned_bam = ALIGNMENT(paired_reads_trim, indexed_reference)
         picard_out = PICARD(aligned_bam)
-        samtools_out = SORTING(picard_out)
-        bis_snp_out = BIS_SNP(samtools_out)
+        sort_out = SORTING(picard_out)
+        bis_snp_out = BIS_SNP(sort_out)
     }
 
 }
