@@ -211,7 +211,7 @@ process PICARD{
 }
 
 //carries out sorting of BAM files edited with PICARD. 
-process SAMTOOLS{
+process SORTING{
     tag {sampleId}
 
     publishDir "${params.results}/Alignments/${sampleId}/"
@@ -269,7 +269,7 @@ process BIS_SNP {
     module load GATK/4.4.0.0-GCCcore-12.2.0-Java-17
 
     # Calls SNPs using BisSNP
-    java -Xmx4g -jar ${params.pipeline_loc}/tools/BisSNP-0.90.jar -R ${ref_location} \
+    java -Xmx4g -jar ${params.pipeline_loc}/tools/BisSNP-0.90.jar -R ${params.reference_genome} \
     -t 10 -T BisulfiteGenotyper -I ${bam_file} \
     -vfn1 ${sampleId}_cpg.raw.vcf -vfn2 ${sampleId}_snp.raw.vcf
 
@@ -294,7 +294,7 @@ workflow{
     if (params.index_requirement == 0){
         aligned_bam = ALIGNMENT(paired_trimmed, params.reference_genome)
         picard_out = PICARD(aligned_bam)
-        samtools_out = SAMTOOLS(picard_out)
+        samtools_out = SORTING(picard_out)
         bis_snp_out = BIS_SNP(samtools_out)
             
     }
@@ -303,7 +303,7 @@ workflow{
         indexed_reference = INDEX(params.reference_genome)
         aligned_bam = ALIGNMENT(paired_reads_trim, indexed_reference)
         picard_out = PICARD(aligned_bam)
-        samtools_out = SAMTOOLS(picard_out)
+        samtools_out = SORTING(picard_out)
         bis_snp_out = BIS_SNP(samtools_out)
     }
 
