@@ -16,15 +16,13 @@ sample_name=$(basename ${target_directory} )
 
 
 # Optimize this step, as unzipped reads take up too much space. 
-echo "Merging ${sample_name} files..."
-zcat ${target_directory}/*_1.fq.gz >> "${output_mates}/${sample_name}_1.fq"  
-zcat ${target_directory}/*_2.fq.gz >> "${output_mates}/${sample_name}_2.fq"
 
-echo "Zipping ${sample_name} merged reads..."
-gzip "${output_mates}/${sample_name}_1.fq" 
-gzip "${output_mates}/${sample_name}_2.fq"
+echo "Merging and zipping ${sample_name} files..."
 
-rm "${output_mates}/${sample_name}_1.fq" 
-rm "${output_mates}/${sample_name}_2.fq" 
+# Merge and gzip _1.fq.gz files
+zcat "${target_directory}"/*_1.fq.gz | gzip > "${output_mates}/${sample_name}_1.fq.gz"
+
+# Merge and gzip _2.fq.gz files
+zcat "${target_directory}"/*_2.fq.gz | gzip > "${output_mates}/${sample_name}_2.fq.gz"
 
 echo "${sample_name} done!"
