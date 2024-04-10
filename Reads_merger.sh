@@ -1,39 +1,28 @@
 #!/bin/bash
 
 
+#SBATCH --ntasks=10
+#SBATCH --time=1-00
+#SBATCH --qos=bbdefault
+#SBATCH --account=cazierj-msc-bioinf
+
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
-#                             READ UNIQUE FILES NAME                       #
+#                         Merges reads into paired mates                   #
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 target_directory=$1
 output_mates=$2
 
-mkdir -p ../temporary_outs
-mkdir -p ${output_mates}
-mkdir -p ../temporary_outs/unzipped_reads
+sample_name=$(basename ${target_directory} )
 
-#Extract unique fasta file names 
-name=()
+echo "Merging ${sample_name} files..."
+zcat ${target_directory}/*_1.fq.gz >> "${output_mates}/${sample_name}_1.fq"  
+zcat ${target_directory}/*_2.fq.gz >> "${output_mates}/${sample_name}_2.fq"
 
-for file in ${target_directory}/*.fq.gz
-do
-	a=$(echo ${file} | cut -d'_' -f 1)
-	b=$(echo ${file} | cut -d'_' -f 2)
-	name+=("${a}_${b}")
-	
+echo "Zipping ${sample_name} merged reads..."
+gzip "${output_mates}/${sample_name}_1.fq" 
+gzip "${output_mates}/${sample_name}_2.fq"
 
-done
-unique_fl="${name[@]}" | tr ' ' '\n' | sort -u | tr '\n' ' '
+rm "${output_mates}/${sample_name}_1.fq" 
+rm "${output_mates}/${sample_name}_2.fq" 
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
-#                             MERGE FILES AND NAMES                        #
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
-#Gunzip all the files and then merge file. 
-
-for fl in ${unique_fl}
-do
-
-#Merges reads into two mates reads files
-zcat "${fl}"*_1.fq.gz > "${fl}_1.fq"
-zcat "${fl}"*_2.fq.gz > "${fl}_2.fq"
-done
-
+echo "${sample_name} done!"
