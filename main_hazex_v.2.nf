@@ -153,7 +153,7 @@ process ALIGNMENT {
     path indexed_reference_directory 
     
     output:
-    tuple val(sampleId), path ("${sampleId}*.bam"), path ("${sampleId}*.txt")
+    tuple val(sampleId), path ("*.bam"), path ("*.txt")
     
 
     script:
