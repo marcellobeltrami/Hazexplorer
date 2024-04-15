@@ -228,10 +228,11 @@ process SORTING{
     set -e
 
     module purge; module load bluebear
+    module load bear-apps/2022a/live
     module load bear-apps/2022b/live
-    module load picard/2.27.5-Java-11
+    module load Java/17.0.6
 
-    java -jar $EBROOTPICARD/picard.jar SortSam \
+    java -Xmx4g -jar  ${params.pipeline_loc}/tools/picard.jar SortSam \
     I=${bam_file} \
     O=${sampleId}_sorted.bam \
     SORT_ORDER=coordinate \
