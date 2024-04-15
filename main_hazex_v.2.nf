@@ -232,13 +232,13 @@ process SORTING{
     module load bear-apps/2022b/live
     module load Java/17.0.6
 
-    export TMP_DIR=${params.pipeline_loc}/temps/
 
     java -Xmx4g -jar  ${params.pipeline_loc}/tools/picard.jar SortSam \
     I=${bam_file} \
     O=${sampleId}_sorted.bam \
     SORT_ORDER=coordinate \
-    CREATE_INDEX=true
+    CREATE_INDEX=true \
+    TMP_DIR=${params.pipeline_loc}/temps/
 
     """
 
