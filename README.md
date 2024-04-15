@@ -35,7 +35,7 @@ If tools do not meet exact requirements, pipeline might behave unexpectedly.
 
 4. Execute the pipeline:
     ```bash
-    nextflow run main_hazex.nf --paired_reads='<path to paire reads, follow this example format: ./data/reads/*{1,2}.fq.gz>' --reference_genome='<full_path_to_reference_genome>' --reference_name='reference_name' --index_requirement=<0_or_1>
+    sbatch nextflow run main_hazex_v.2.nf --paired_reads='<path to paire reads, follow this example format: ./data/reads/*{1,2}.fq.gz>' --reference_genome='<full_path_to_reference_genome>' --reference_name='reference_name' --index_requirement=<0_or_1>
     ```
 
 
