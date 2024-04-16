@@ -17,7 +17,6 @@ merged_reads=$2 #(change to $2)
 
 #-------------------------------------------------------------#
 #Check if usr parameters have been inputted. 
-
 if [ $# -eq 0 ]; then
     echo "Usage: $0 <Full path containing all samples directories> <Full path Output directory where all merged samples will be stored>"
     exit 1
@@ -26,7 +25,7 @@ fi
 #Merged reads folder is created and will be used 
 mkdir -p ${merged_reads}
 
-# Executions side. Does not need changing. 
+# Executions side. Does not need changing. Takes each directory and inputs it in the merging script.  
 for sample_dir in ${samples_directories}; do 
 	echo ${sample_dir}
 	./Reads_merger.v.2.sh ${sample_dir} ${merged_reads}

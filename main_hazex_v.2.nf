@@ -246,7 +246,6 @@ process SORTING{
 }
 
 
-
 //Create a process for SNP calling.
 process BIS_SNP {
     tag { sampleId }
