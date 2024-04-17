@@ -246,7 +246,7 @@ process SORTING{
 }
 
 
-//Create a process for SNP calling.
+//Create a process for SNP calling using BisSNP.
 process BIS_SNP {
     tag { sampleId }
     publishDir "${params.results}/results/${sampleId}/"
@@ -280,6 +280,8 @@ process BIS_SNP {
 }
 
 
+
+//Carries out prep for  CGMapTools used in bayesian mode.
 process  CGMAP_PREP{
     tag { sampleId }
     publishDir "${params.results}/results/${sampleId}/"
@@ -314,7 +316,7 @@ process  CGMAP_PREP{
 }
 
 
-
+//Create a process for SNP calling using CGMapTools in bayesian mode.
 process CGMAP_TOOLS {
     tag { sampleId }
     publishDir "${params.results}/results/${sampleId}/"
