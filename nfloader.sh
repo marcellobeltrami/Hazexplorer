@@ -28,7 +28,7 @@ mkdir -p ${merged_reads}
 # Executions side. Does not need changing. Takes each directory and inputs it in the merging script.  
 for sample_dir in ${samples_directories}; do 
 	echo ${sample_dir}
-	./Reads_merger.v.2.sh ${sample_dir} ${merged_reads}
+	sbatch Reads_merger.v.2.sh ${sample_dir} ${merged_reads}
 
 done 
 
