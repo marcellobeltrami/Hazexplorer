@@ -11,14 +11,14 @@ module purge; module load bluebear
 module load  bear-apps/2021b/live; module load  Nextflow/22.04.0
 #Adjust time and ntasks depending on the amount of samples you have. 
 #-------------------------------------------------------------#
-# Usr parameters. Please change this according file location 
-samples_directories=$(find $1 -mindepth 1 -maxdepth 1 -type d) #(change to $1)     
-merged_reads=$2 #(change to $2)
+# Usr parameters. Please change this according file location. 
+samples_directories=$(find "$1" -mindepth 1 -maxdepth 1 -type d)
+merged_reads="${2:-/rds/projects/l/lunadiee-epi-virtualmchine/Students/gp_project_MSKD/Hazexplorer/data/merged_reads}"
 
 #-------------------------------------------------------------#
 #Check if usr parameters have been inputted. 
 if [ $# -eq 0 ]; then
-    echo "Usage: $0 <Full path containing all samples directories> <Full path Output directory where all merged samples will be stored>"
+    echo "Usage: $0 <Full path containing all samples directories> <Full path Output directory where all merged samples will be stored (default is directory used in dev)>"
     exit 1
 fi
 

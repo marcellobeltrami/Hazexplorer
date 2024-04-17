@@ -9,6 +9,7 @@
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #                         Merges reads into paired mates                   #
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+#Takes as input the directory with directories containing sample reads and where the mates generated will be stored. 
 target_directory=$1
 output_mates=$2
 
