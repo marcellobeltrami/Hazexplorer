@@ -5,7 +5,7 @@
 #SBATCH --time=1-00
 #SBATCH --qos=bbdefault
 #SBATCH --account=cazierj-msc-bioinf
-
+#SBATCH --output=./slurm_logs/slurm-%j.out
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #                         Merges reads into paired mates                   #
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#

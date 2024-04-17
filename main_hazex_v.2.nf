@@ -280,6 +280,70 @@ process BIS_SNP {
 }
 
 
+process  CGMAP_PREP{
+    tag { sampleId }
+    publishDir "${params.results}/results/${sampleId}/"
+
+    input:
+    tuple val(sampleId), path(sorted_bam_file), path(bai_file)
+    path reference_genome
+
+    output:
+    tuple val(sampleId), path("*.ATCGmap.gz")
+    
+    script: 
+    def bam_file = sorted_bam_file
+    def bai_index = bai_file
+    def reference_genome = reference_genome
+    """
+    set -e
+
+    module purge; module load bluebear
+    module load bear-apps/2022a/
+    module load CGmapTools/0.1.3-foss-2022a
+
+    CGmap_file="${sampleId}.CGmap.gz"
+    
+
+    #Convert BAM file into input files for CGmap tools
+    cgmaptools convert bam2cgmap -b "${sorted_bam_file}" -g "${reference_genome}" -o "${sampleId}"
+
+    """
+
+
+}
+
+
+
+process CGMAP_TOOLS {
+    tag { sampleId }
+    publishDir "${params.results}/results/${sampleId}/"
+
+    input:
+    tuple val(sampleId), path(ATCGmap_file)
+    
+
+    output:
+    tuple val(sampleId), file("${sampleId}*.vcf"), file("${sampleId}*.snv")
+
+    script:
+    def ATCGmap_file = ATCGmap_file
+
+    """
+    set -e
+
+    module purge; module load bluebear
+    module load bear-apps/2022a/
+    module load CGmapTools/0.1.3-foss-2022a
+
+    # Carrys out SNP analysis using bayesian method. Slower but more precise.
+    cgmaptools snv -i "${ATCGmap_file}" -m bayes -v "${sampleId}_bayes.vcf" -o "${sampleId}_bayes.snv" --bayes-dynamicP
+
+    """
+
+}
+
+
 // Acts as the MAIN function, running each process in the most optimal way.
 workflow{
 
@@ -297,6 +361,9 @@ workflow{
         picard_out = PICARD(aligned_bam)
         sort_out = SORTING(picard_out)
         bis_snp_out = BIS_SNP(sort_out)
+        
+        CGmaptool_prp = CGMAP_PREP(sort_out, params.reference_genome )
+        CGmap_out = CGMAP_TOOLS(CGmaptool_prp)
             
     }
     //called if reference genome is custom and needs to be indexed.
@@ -306,6 +373,10 @@ workflow{
         picard_out = PICARD(aligned_bam)
         sort_out = SORTING(picard_out)
         bis_snp_out = BIS_SNP(sort_out)
+
+        CGmaptool_prp = CGMAP_PREP(sort_out, params.reference_genome )
+        CGmap_out = CGMAP_TOOLS(CGmaptool_prp)
+
     }
 
 }
