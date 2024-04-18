@@ -14,13 +14,16 @@ module load  bear-apps/2021b/live; module load  Nextflow/22.04.0
 # Usr parameters. Please change this according file location. 
 samples_directories=$(find "$1" -mindepth 1 -maxdepth 1 -type d)
 merged_reads="${2:-/rds/projects/l/lunadiee-epi-virtualmchine/Students/gp_project_MSKD/Hazexplorer/data/merged_reads}"
-
+merging_required="${3:n}"
 #-------------------------------------------------------------#
 #Check if usr parameters have been inputted. 
 if [ $# -eq 0 ]; then
     echo "Usage: $0 <Full path containing all samples directories> <Full path Output directory where all merged samples will be stored (default is directory used in dev)>"
     exit 1
 fi
+
+
+##Add if statement that checks whether merged reads are required (default is no)
 
 #Merged reads folder is created and will be used 
 mkdir -p ${merged_reads}
@@ -34,5 +37,5 @@ done
 
 
 #Runs nextflow pipeline found in main_hazex_v.2.nf using the merged paired reads 
-#nextflow -log ./nf_logs/nextflow.log run main_hazex_v.2.nf --paired_reads=${merged_reads}/*{1,2}.fq.gz
+#nextflow -log ./nf_logs/nextflow.log run main_hazex_v.2.nf --paired_reads=${merged_reads}/*{1,2}.fq.gz -with-report ./nf_logs/Run_report
  
