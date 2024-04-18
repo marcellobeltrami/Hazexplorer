@@ -23,19 +23,21 @@ if [ $# -eq 0 ]; then
 fi
 
 
-##Add if statement that checks whether merged reads are required (default is no)
+##Add if statement that checks whether merging reads is required (default is no). 
+if [${merging_required} != n]; then 
+    #Merged reads folder is created and will be used 
+    mkdir -p ${merged_reads}
 
-#Merged reads folder is created and will be used 
-mkdir -p ${merged_reads}
+    # Executions side. Does not need changing. Takes each directory and inputs it in the merging script.  
+    for sample_dir in ${samples_directories}; do 
+        echo ${sample_dir}
+        sbatch Reads_merger.v.2.sh ${sample_dir} ${merged_reads}
 
-# Executions side. Does not need changing. Takes each directory and inputs it in the merging script.  
-for sample_dir in ${samples_directories}; do 
-	echo ${sample_dir}
-	sbatch Reads_merger.v.2.sh ${sample_dir} ${merged_reads}
+    done 
 
-done 
+fi
 
 
 #Runs nextflow pipeline found in main_hazex_v.2.nf using the merged paired reads 
-#nextflow -log ./nf_logs/nextflow.log run main_hazex_v.2.nf --paired_reads=${merged_reads}/*{1,2}.fq.gz -with-report ./nf_logs/Run_report
+nextflow -log ./nf_logs/nextflow.log run main_hazex_v.2.nf --paired_reads=${merged_reads}/*{1,2}.fq.gz -with-report ./nf_logs/Run_report
  
