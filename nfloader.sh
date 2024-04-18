@@ -14,7 +14,7 @@ module load  bear-apps/2021b/live; module load  Nextflow/22.04.0
 # Usr parameters. Please change this according file location. 
 samples_directories=$(find "$1" -mindepth 1 -maxdepth 1 -type d)
 merged_reads="${2:-/rds/projects/l/lunadiee-epi-virtualmchine/Students/gp_project_MSKD/Hazexplorer/data/merged_reads}"
-merging_required="${3:n}"
+merging_required="${3:-n}"
 #-------------------------------------------------------------#
 #Check if usr parameters have been inputted. 
 if [ $# -eq 0 ]; then
@@ -22,6 +22,11 @@ if [ $# -eq 0 ]; then
     exit 1
 fi
 
+# Check if the input directory exists
+if [ ! -d "$input_directory" ]; then
+    echo "Error: Input directory '$input_directory' not found."
+    exit 1
+fi
 
 ##Add if statement that checks whether merging reads is required (default is no). 
 if [${merging_required} != n]; then 
