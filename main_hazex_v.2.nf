@@ -291,12 +291,13 @@ process  CGMAP_PREP{
     path reference_genome
 
     output:
-    tuple val(sampleId), path("*.gz")
+    tuple val(sampleId), path("${sampleId}_cgmap/*")
     
     script: 
     def bam_file = sorted_bam_file
     def bai_index = bai_file
     def reference_genome = reference_genome
+
     """
     set -e
 
@@ -304,11 +305,9 @@ process  CGMAP_PREP{
     module load bear-apps/2022a/
     module load CGmapTools/0.1.3-foss-2022a
 
-    CGmap_file="${sampleId}.CGmap.gz"
-    
 
     #Convert BAM file into input files for CGmap tools
-    cgmaptools convert bam2cgmap -b "${sorted_bam_file}" -g "${reference_genome}" -o "${CGmap_file}"
+    cgmaptools convert bam2cgmap -b "${sorted_bam_file}" -g "${reference_genome}" -o "${sampleId}_cgmap/"
 
     """
 
@@ -322,15 +321,14 @@ process CGMAP_TOOLS {
     publishDir "${params.results}/results/${sampleId}/"
 
     input:
-    tuple val(sampleId), path(ATCGmap_file)
+    tuple val(sampleId), path(ATCGmap_dir)
     
 
     output:
     tuple val(sampleId), file("${sampleId}*.vcf"), file("${sampleId}*.snv")
 
     script:
-    def ATCGmap_file = ATCGmap_file
-
+    def ATCGmap_file = "${ATCGmap_dir}/*.ATCGmap.gz"
     """
     set -e
 
