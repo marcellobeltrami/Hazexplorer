@@ -291,7 +291,7 @@ process  CGMAP_PREP{
     path reference_genome
 
     output:
-    tuple val(sampleId), path("${sampleId}_cgmap")
+    tuple val(sampleId),  path "${sampleId}/*"
     
     script: 
     def bam_file = sorted_bam_file
@@ -307,7 +307,7 @@ process  CGMAP_PREP{
 
 
     #Convert BAM file into input files for CGmap tools
-    cgmaptools convert bam2cgmap -b ${sorted_bam_file} -g ${reference_genome} -o ${sampleId}_cgmap/
+    cgmaptools convert bam2cgmap -b ${sorted_bam_file} -g ${reference_genome} -o ${sampleId}
 
     """
 
@@ -325,7 +325,7 @@ process CGMAP_TOOLS {
     
 
     output:
-    tuple val(sampleId), file("${sampleId}*.vcf"), file("${sampleId}*.snv")
+    tuple val(sampleId), path("*.vcf"), path("*.snv")
 
     script:
     def ATCGmap_file = "${ATCGmap_dir}/*.ATCGmap.gz"
