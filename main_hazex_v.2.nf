@@ -291,7 +291,7 @@ process  CGMAP_PREP{
     path reference_genome
 
     output:
-    tuple val(sampleId),  path "${sampleId}/*"
+    tuple val(sampleId), path ("${sampleId}/*.ATCGmap.gz"), path ("${sampleId}/*")
     
     script: 
     def bam_file = sorted_bam_file
@@ -321,14 +321,14 @@ process CGMAP_TOOLS {
     publishDir "${params.results}/results/${sampleId}/"
 
     input:
-    tuple val(sampleId), path(ATCGmap_dir)
+    tuple val(sampleId), path(ATCGmap_file), path(other_files)
     
 
     output:
     tuple val(sampleId), path("*.vcf"), path("*.snv")
 
     script:
-    def ATCGmap_file = "${ATCGmap_dir}/*.ATCGmap.gz"
+    def ATCGmap_file = ATCGmap_file
     """
     set -e
 
