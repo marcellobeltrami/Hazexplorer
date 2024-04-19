@@ -362,7 +362,7 @@ workflow{
         sort_out = SORTING(picard_out)
         bis_snp_out = BIS_SNP(sort_out)
         
-        CGmaptool_prp = CGMAP_PREP(sort_out, params.reference_genome )
+        CGmaptool_prp = CGMAP_PREP(sort_out, "${params.reference_genome}/GCF_901000735.1_CavTom2PMs-1.0_genomic.fa" )
         CGmap_out = CGMAP_TOOLS(CGmaptool_prp)
             
     }
@@ -374,7 +374,7 @@ workflow{
         sort_out = SORTING(picard_out)
         bis_snp_out = BIS_SNP(sort_out)
 
-        CGmaptool_prp = CGMAP_PREP(sort_out, params.reference_genome )
+        CGmaptool_prp = CGMAP_PREP(sort_out, "${params.reference_genome}/GCF_901000735.1_CavTom2PMs-1.0_genomic.fa" )
         CGmap_out = CGMAP_TOOLS(CGmaptool_prp)
 
     }
