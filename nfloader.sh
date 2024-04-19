@@ -44,5 +44,5 @@ fi
 
 
 #Runs nextflow pipeline found in main_hazex_v.2.nf using the merged paired reads 
-nextflow -log ./nf_logs/nextflow.log run main_hazex_v.2.nf --paired_reads=${merged_reads}/*{1,2}.fq.gz -with-report ./nf_logs/Run_report
+nextflow -log ./nf_logs/nextflow.log run main_hazex_v.2.nf --paired_reads="${merged_reads}/*{1,2}.fq.gz" -with-report ./nf_logs/Run_report
  
