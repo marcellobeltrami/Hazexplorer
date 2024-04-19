@@ -282,7 +282,7 @@ process BIS_SNP {
 
 
 //Carries out prep for  CGMapTools used in bayesian mode.
-process  CGMAP_PREP{
+process  CGMAP_PREP {
     tag { sampleId }
     publishDir "${params.results}/results/${sampleId}/"
 
@@ -291,7 +291,7 @@ process  CGMAP_PREP{
     path reference_genome
 
     output:
-    tuple val(sampleId), path ("*.ATCGmap.gz"), path ("*.CGmap.gz"), , path ("*.wig.gz")
+    tuple val(sampleId), path ("*.ATCGmap.gz"), path ("*.CGmap.gz"), path ("*.wig.gz")
     
     script: 
     def bam_file = sorted_bam_file
