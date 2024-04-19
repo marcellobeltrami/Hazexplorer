@@ -23,8 +23,8 @@ if [ $# -eq 0 ]; then
 fi
 
 # Check if the input directory exists
-if [ ! -d "$input_directory" ]; then
-    echo "Error: Input directory '$input_directory' not found."
+if [ ! -d "$samples_directories" ]; then
+    echo "Error: Input directory '$samples_directories' not found."
     exit 1
 fi
 
