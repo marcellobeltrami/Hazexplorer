@@ -1,0 +1,70 @@
+name: Test Nextflow Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - '**/feature/*'
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up JDK
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+
+    - name: Install Nextflow
+      run: |
+        curl -s https://get.nextflow.io | bash
+        sudo mv nextflow /usr/local/bin/
+
+    - name: Install Dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          fastp \
+          fastqc \
+          bismark \
+          picard-tools \
+          samtools \
+          gatk \
+          cgmaptools
+
+    - name: Set up test data
+      run: |
+        mkdir -p data/references/Hazelnut_CavTom2PMs-1.0
+        cd data/references/Hazelnut_CavTom2PMs-1.0
+        wget ftp://ftp.sra.ebi.ac.uk/vol1/run/ERR485/ERR4852503/TomNPpass_trim2.fastq.gz
+       
+
+    - name: Run Nextflow Pipeline
+      run: |
+        nextflow run main.nf \
+          -c nextflow-test.config \
+          --paired_reads='./data/reads/*{1,2}.fq.gz' \
+          --reference_genome='./data/references/Hazelnut_CavTom2PMs-1.0/TomNPpass_trim2.fastq.gz' \
+          --reference_name='reference_name' \
+          --pipeline_loc='./' \
+          --results='./results' \
+          --temps='./temps' \
+          --index_requirement='0' \
+          --parallelize='1' \
+          --threads='4'
+
+    - name: Validate Results
+      run: |
+        # Add commands to validate the results of your pipeline
+        echo "Validating results..."
+        ls -l results
+        # Example check for output files:
+        test -f results/some_output_file.txt
+        echo "Validation complete."
